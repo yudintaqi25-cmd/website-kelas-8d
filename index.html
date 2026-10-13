@@ -1,4 +1,4 @@
-
+```html
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -12,14 +12,14 @@
 <body>
 
   <!-- VIDEO LATAR BELAKANG -->
-  <div class="video-background">
+  <div class="video-background" aria-hidden="true">
     <video autoplay muted loop playsinline id="background-video">
       <source src="assets/background.mp4" type="video/mp4">
     </video>
   </div>
-  <div class="background-overlay"></div>
+  <div class="background-overlay" aria-hidden="true"></div>
 
-  <!-- HIASAN IKAN DAN GELEMBUNG -->
+  <!-- HIASAN LAUT -->
   <div class="ocean-bg" aria-hidden="true">
     <span class="fish fish-1">🐠</span>
     <span class="fish fish-2">🐟</span>
@@ -33,7 +33,7 @@
     <span class="bubble bubble-5"></span>
   </div>
 
-  <!-- HEADER DAN NAVIGASI -->
+  <!-- HEADER -->
   <header class="header">
     <a class="brand" href="#beranda" data-go="beranda">
       <span class="brand-icon">🌊</span>
@@ -63,9 +63,7 @@
 
   <main class="container">
 
-    <!-- =========================
-         HALAMAN BERANDA
-    ========================== -->
+    <!-- BERANDA -->
     <section class="page active" id="page-beranda">
       <div class="hero glass">
         <div class="hero-content">
@@ -149,9 +147,7 @@
       </div>
     </section>
 
-    <!-- =========================
-         JADWAL PELAJARAN
-    ========================== -->
+    <!-- JADWAL PELAJARAN -->
     <section class="page" id="page-pelajaran">
       <div class="page-heading glass">
         <span class="eyebrow">📖 LEARN SOMETHING NEW</span>
@@ -191,14 +187,12 @@
         </div>
 
         <p class="table-note">
-          ℹ️ Cocokkan kembali jadwal dan nama guru dengan jadwal resmi kelas.
+          ℹ️ Cocokkan kembali jadwal dengan jadwal resmi kelas.
         </p>
       </div>
     </section>
 
-    <!-- =========================
-         JADWAL SERAGAM
-    ========================== -->
+    <!-- JADWAL SERAGAM -->
     <section class="page" id="page-seragam">
       <div class="page-heading glass">
         <span class="eyebrow">👕 BE NEAT, BE READY</span>
@@ -225,7 +219,7 @@
           <div class="uniform-emoji">⚜️</div>
           <span class="uniform-day">RABU</span>
           <h2>Pramuka</h2>
-          <p>Seragam Pramuka lengkap sesuai aturan sekolah.</p>
+          <p>Seragam Pramuka sesuai aturan sekolah.</p>
         </article>
 
         <article class="uniform-card glass">
@@ -239,14 +233,14 @@
           <div class="uniform-emoji">🕌</div>
           <span class="uniform-day">JUMAT</span>
           <h2>Nuansa Religius</h2>
-          <p>Seragam bernuansa religius sesuai ketentuan sekolah.</p>
+          <p>Seragam sesuai ketentuan sekolah.</p>
         </article>
 
         <article class="uniform-card glass">
           <div class="uniform-emoji">🎎</div>
           <span class="uniform-day">SABTU</span>
           <h2>Seragam Adat</h2>
-          <p>Seragam adat pada tanggal 1 dan 17, sesuai aturan sekolah.</p>
+          <p>Gunakan sesuai jadwal resmi sekolah.</p>
         </article>
       </div>
 
@@ -254,45 +248,32 @@
         <span class="notice-icon">📌</span>
         <div>
           <h3>Ingat!</h3>
-          <p>
-            Jika ada perubahan seragam karena upacara atau kegiatan sekolah,
-            ikuti pengumuman dari guru.
-          </p>
+          <p>Jika ada perubahan seragam, ikuti pengumuman dari guru.</p>
         </div>
       </div>
     </section>
 
-    <!-- =========================
-         JADWAL PIKET
-    ========================== -->
+    <!-- PIKET KELAS -->
     <section class="page" id="page-piket">
       <div class="page-heading glass">
         <span class="eyebrow">🧹 CLEAN CLASS, HAPPY CLASS</span>
         <h1>Jadwal Piket Kelas 8D</h1>
-        <p>
-          Kenali anggota piket setiap hari dan jaga kebersihan
-          kelas kita bersama-sama!
-        </p>
+        <p>Kenali anggota piket setiap hari dan jaga kebersihan kelas bersama!</p>
       </div>
 
-      <!-- Nama anggota ditampilkan oleh script.js -->
+      <!-- Daftar nama diisi oleh script.js -->
       <div id="daftar-piket" class="piket-grid"></div>
 
       <div class="notice glass">
         <span class="notice-icon">🐠</span>
         <div>
           <h3>Pesan untuk Kelas 8D</h3>
-          <p>
-            Datang tepat waktu, bekerja sama, dan pastikan
-            kelas bersih sebelum kegiatan belajar dimulai.
-          </p>
+          <p>Datang tepat waktu dan pastikan kelas bersih sebelum belajar.</p>
         </div>
       </div>
     </section>
 
-    <!-- =========================
-         TUGAS KELAS
-    ========================== -->
+    <!-- TUGAS KELAS -->
     <section class="page" id="page-tugas">
       <div class="page-heading glass">
         <span class="eyebrow">✏️ DON'T FORGET YOUR TASKS</span>
@@ -303,22 +284,12 @@
       <form class="glass task-form" id="task-form">
         <div class="form-field">
           <label for="task-name">Nama tugas</label>
-          <input
-            id="task-name"
-            type="text"
-            placeholder="Contoh: Latihan Matematika"
-            required
-          >
+          <input id="task-name" type="text" placeholder="Contoh: Latihan Matematika" required>
         </div>
 
         <div class="form-field">
           <label for="task-subject">Mata pelajaran</label>
-          <input
-            id="task-subject"
-            type="text"
-            placeholder="Contoh: Matematika"
-            required
-          >
+          <input id="task-subject" type="text" placeholder="Contoh: Matematika" required>
         </div>
 
         <div class="form-field">
@@ -339,20 +310,14 @@
         </div>
 
         <div id="tasks-container" class="tasks-container">
-          <p class="empty-state">
-            🎉 Belum ada tugas. Semoga harimu menyenangkan!
-          </p>
+          <p class="empty-state">🎉 Belum ada tugas. Semoga harimu menyenangkan!</p>
         </div>
       </div>
 
-      <p class="table-note">
-        Daftar tugas tersimpan di browser pada perangkat ini.
-      </p>
+      <p class="table-note">Daftar tugas tersimpan di browser pada perangkat ini.</p>
     </section>
 
-    <!-- =========================
-         PENGUMUMAN
-    ========================== -->
+    <!-- PENGUMUMAN -->
     <section class="page" id="page-pengumuman">
       <div class="page-heading glass">
         <span class="eyebrow">📢 STAY UPDATED</span>
@@ -366,10 +331,7 @@
           <div>
             <span class="announcement-label">BELAJAR</span>
             <h2>Persiapkan perlengkapan sekolah</h2>
-            <p>
-              Periksa jadwal pelajaran dan siapkan buku sesuai
-              mata pelajaran besok.
-            </p>
+            <p>Periksa jadwal pelajaran dan siapkan buku untuk besok.</p>
           </div>
         </article>
 
@@ -378,10 +340,7 @@
           <div>
             <span class="announcement-label">KEBERSIHAN</span>
             <h2>Jaga kebersihan kelas</h2>
-            <p>
-              Buang sampah pada tempatnya dan laksanakan piket
-              sesuai jadwal.
-            </p>
+            <p>Buang sampah pada tempatnya dan laksanakan piket sesuai jadwal.</p>
           </div>
         </article>
 
@@ -390,17 +349,13 @@
           <div>
             <span class="announcement-label">SERAGAM</span>
             <h2>Periksa jadwal seragam</h2>
-            <p>
-              Gunakan seragam sesuai jadwal dan ketentuan terbaru
-              dari sekolah.
-            </p>
+            <p>Gunakan seragam sesuai ketentuan terbaru dari sekolah.</p>
           </div>
         </article>
       </div>
 
       <p class="table-note">
-        Pengumuman di atas adalah pengingat umum. Tambahkan
-        pengumuman resmi dari wali kelas jika diperlukan.
+        Tambahkan pengumuman resmi dari wali kelas jika diperlukan.
       </p>
     </section>
 
@@ -423,3 +378,4 @@
   <script src="script.js"></script>
 </body>
 </html>
+```
