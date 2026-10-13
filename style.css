@@ -1183,3 +1183,70 @@ input[type="date"] {
 .piket-card li::marker {
   color: #7deaff;
 }
+/* ===== PERBAIKAN TOMBOL WEBSITE KELAS 8D ===== */
+
+/* Latar belakang tidak boleh menghalangi tombol */
+.video-background,
+.video-background video,
+.background-overlay,
+.ocean-bg {
+  pointer-events: none !important;
+}
+
+/* Pastikan konten berada di atas latar belakang */
+.header,
+.container,
+.footer {
+  position: relative;
+  z-index: 10;
+}
+
+/* Perbaikan sentuhan untuk semua tombol dan tautan */
+button,
+a,
+.nav-link,
+.menu-toggle,
+.primary-button,
+.secondary-button,
+.day-tab,
+.delete-task,
+.info-card {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Menu navigasi berada di atas konten */
+.nav {
+  position: relative;
+  z-index: 20;
+}
+
+.nav.open {
+  z-index: 30;
+}
+
+/* Perbaikan tampilan menu pada HP */
+@media (max-width: 768px) {
+  .header {
+    position: relative;
+    z-index: 100;
+  }
+
+  .nav,
+  .nav.open {
+    z-index: 101;
+  }
+
+  button,
+  a,
+  .nav-link,
+  .menu-toggle,
+  .primary-button,
+  .secondary-button,
+  .day-tab,
+  .delete-task,
+  .info-card {
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+}
