@@ -289,3 +289,60 @@ taskForm.addEventListener("submit", event => {
 });
 
 renderTasks();
+
+const jadwalPiket = {
+  Senin: ["Taqi", "Abi", "Wafiy", "Retha", "Jihan"],
+  Selasa: ["Wildan", "Vergy", "Ega", "Ifa", "Vio"],
+  Rabu: ["Sany", "Tristan", "Arif", "Najwa", "Aqila"],
+  Kamis: ["Aenzy", "Aqla", "Khian", "Vea", "Dipa", "Ayu"],
+  Jumat: ["Wahyu", "Arka", "Zoga", "Jesicca", "Nita", "Tika"],
+  Sabtu: ["Arka", "Rendy", "Kayla", "Icha", "Lita"]
+};
+
+// Menampilkan jadwal piket ke halaman website
+function tampilkanJadwalPiket() {
+  const wadah =
+    document.getElementById("daftar-piket") ||
+    document.getElementById("jadwal-piket");
+
+  if (!wadah) {
+    console.warn(
+      "Elemen jadwal piket tidak ditemukan. " +
+      "Tambahkan id='daftar-piket' pada bagian jadwal piket di index.html."
+    );
+    return;
+  }
+
+  wadah.innerHTML = "";
+
+  const ikonHari = {
+    Senin: "🐠",
+    Selasa: "🐬",
+    Rabu: "🐢",
+    Kamis: "🪼",
+    Jumat: "🐙",
+    Sabtu: "🐳"
+  };
+
+  for (const [hari, siswa] of Object.entries(jadwalPiket)) {
+    const kartu = document.createElement("div");
+    kartu.className = "piket-card";
+
+    const judul = document.createElement("h3");
+    judul.textContent = `${ikonHari[hari]} ${hari}`;
+
+    const daftar = document.createElement("ul");
+
+    siswa.forEach((nama) => {
+      const item = document.createElement("li");
+      item.textContent = nama;
+      daftar.appendChild(item);
+    });
+
+    kartu.appendChild(judul);
+    kartu.appendChild(daftar);
+    wadah.appendChild(kartu);
+  }
+}
+
+document.addEventListener("DOMContentLoaded", tampilkanJadwalPiket);
