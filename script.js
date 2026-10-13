@@ -3,7 +3,7 @@
 // KELAS 8D - JAVASCRIPT
 // ================================
 
-// Navigasi halaman
+// NAVIGASI HALAMAN
 const nav = document.getElementById("nav");
 const menuToggle = document.getElementById("menu-toggle");
 const navLinks = document.querySelectorAll(".nav-link");
@@ -20,8 +20,8 @@ function showPage(pageName) {
     link.classList.toggle("active", link.dataset.page === pageName);
   });
 
-  nav.classList.remove("open");
-  menuToggle.setAttribute("aria-expanded", "false");
+  if (nav) nav.classList.remove("open");
+  if (menuToggle) menuToggle.setAttribute("aria-expanded", "false");
 
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
@@ -37,26 +37,29 @@ document.querySelectorAll("[data-go]").forEach(button => {
   });
 });
 
-menuToggle.addEventListener("click", () => {
-  const isOpen = nav.classList.toggle("open");
-  menuToggle.setAttribute("aria-expanded", String(isOpen));
-});
+if (menuToggle && nav) {
+  menuToggle.addEventListener("click", () => {
+    const isOpen = nav.classList.toggle("open");
+    menuToggle.setAttribute("aria-expanded", String(isOpen));
+  });
+}
 
-// Tombol kembali ke atas
+// TOMBOL KEMBALI KE ATAS
 const backToTop = document.getElementById("back-to-top");
 
-window.addEventListener("scroll", () => {
-  backToTop.classList.toggle("show", window.scrollY > 350);
-});
+if (backToTop) {
+  window.addEventListener("scroll", () => {
+    backToTop.classList.toggle("show", window.scrollY > 350);
+  });
 
-backToTop.addEventListener("click", () => {
-  window.scrollTo({ top: 0, behavior: "smooth" });
-});
+  backToTop.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+}
 
-// ========================================
+// ================================
 // JADWAL PELAJARAN
-// Silakan cocokkan dengan jadwal resmi.
-// ========================================
+// ================================
 
 const schedules = {
   Senin: [
@@ -66,7 +69,6 @@ const schedules = {
     ["Bahasa Indonesia", "Yuan Malista Ayu Septiwi"],
     ["Literasi", "Nadia Fadilla Dianty"]
   ],
-
   Selasa: [
     ["IPS", "Amalia Zhafira Fani"],
     ["Matematika", "Iska Agustina"],
@@ -74,28 +76,24 @@ const schedules = {
     ["IPA", "Nurmala Maulidina Helayanti"],
     ["Sholat Dhuhur", "Kegiatan sekolah"]
   ],
-
   Rabu: [
     ["IPA", "Nurmala Maulidina Helayanti"],
     ["Matematika", "Iska Agustina"],
     ["Bahasa Inggris", "Sri Sulistijo Andajani"],
     ["Literasi", "Kegiatan literasi"]
   ],
-
   Kamis: [
     ["Bahasa Jawa", "Drs. Budiono"],
     ["PJOK", "Oki Dwijayanto"],
     ["Bahasa Indonesia", "Yuan Malista Ayu Septiwi"],
     ["Literasi Bersama", "Kegiatan literasi"]
   ],
-
   Jumat: [
     ["Jum'ani & Literasi", "Kegiatan sekolah"],
     ["Informatika", "Riski Dian Ratri"],
     ["BK", "Ana Listyarini"],
     ["MBG & Tegur", "Kegiatan sekolah"]
   ],
-
   Sabtu: [
     ["Senam & Adiwiyata", "Kegiatan sekolah"],
     ["PPKN", "Diana Novita Latifatul L."],
@@ -109,22 +107,20 @@ const scheduleTitle = document.getElementById("schedule-day-title");
 const dayTabs = document.querySelectorAll(".day-tab");
 
 function renderSchedule(day) {
+  if (!scheduleBody || !scheduleTitle) return;
+
   scheduleTitle.textContent = `Hari ${day}`;
   scheduleBody.replaceChildren();
 
-  const lessons = schedules[day] || [];
-
-  lessons.forEach((lesson, index) => {
+  (schedules[day] || []).forEach((lesson, index) => {
     const row = document.createElement("tr");
-    const numberCell = document.createElement("td");
-    const subjectCell = document.createElement("td");
-    const teacherCell = document.createElement("td");
 
-    numberCell.textContent = index + 1;
-    subjectCell.textContent = lesson[0];
-    teacherCell.textContent = lesson[1];
+    [index + 1, lesson[0], lesson[1]].forEach(value => {
+      const cell = document.createElement("td");
+      cell.textContent = value;
+      row.appendChild(cell);
+    });
 
-    row.append(numberCell, subjectCell, teacherCell);
     scheduleBody.appendChild(row);
   });
 }
@@ -137,48 +133,68 @@ dayTabs.forEach(tab => {
   });
 });
 
-// Tampilkan jadwal Senin saat halaman dibuka
 renderSchedule("Senin");
 
-// ========================================
-// PIKET KELAS
-// Data disimpan di browser perangkat ini.
-// ========================================
+// ================================
+// JADWAL PIKET KELAS 8D
+// ================================
 
-const piketDays = [
-  "senin", "selasa", "rabu", "kamis", "jumat", "sabtu"
-];
+const jadwalPiket = {
+  Senin: ["Taqi", "Abi", "Wafiy", "Retha", "Jihan"],
+  Selasa: ["Wildan", "Vergy", "Ega", "Ifa", "Vio"],
+  Rabu: ["Sany", "Tristan", "Arif", "Najwa", "Aqila"],
+  Kamis: ["Aenzy", "Aqla", "Khian", "Vea", "Dipa", "Ayu"],
+  Jumat: ["Wahyu", "Arka", "Zoga", "Jesicca", "Nita", "Tika"],
+  Sabtu: ["Arka", "Rendy", "Kayla", "Icha", "Lita"]
+};
 
-function loadPiket() {
-  piketDays.forEach(day => {
-    const field = document.getElementById(`piket-${day}`);
-    const saved = localStorage.getItem(`kelas8d-piket-${day}`);
+function tampilkanJadwalPiket() {
+  const wadah =
+    document.getElementById("daftar-piket") ||
+    document.getElementById("jadwal-piket");
 
-    if (saved !== null) {
-      field.value = saved;
-    }
+  if (!wadah) {
+    console.warn(
+      "Bagian piket belum ditemukan. Tambahkan " +
+      '<div id="daftar-piket"></div> di bagian piket index.html.'
+    );
+    return;
+  }
+
+  wadah.replaceChildren();
+
+  const ikonHari = {
+    Senin: "🐠",
+    Selasa: "🐬",
+    Rabu: "🐢",
+    Kamis: "🪼",
+    Jumat: "🐙",
+    Sabtu: "🐳"
+  };
+
+  Object.entries(jadwalPiket).forEach(([hari, siswa]) => {
+    const kartu = document.createElement("div");
+    kartu.className = "piket-card";
+
+    const judul = document.createElement("h3");
+    judul.textContent = `${ikonHari[hari]} ${hari}`;
+
+    const daftar = document.createElement("ul");
+
+    siswa.forEach(nama => {
+      const item = document.createElement("li");
+      item.textContent = nama;
+      daftar.appendChild(item);
+    });
+
+    kartu.append(judul, daftar);
+    wadah.appendChild(kartu);
   });
 }
 
-document.getElementById("save-piket").addEventListener("click", () => {
-  piketDays.forEach(day => {
-    const field = document.getElementById(`piket-${day}`);
-    localStorage.setItem(`kelas8d-piket-${day}`, field.value);
-  });
-
-  const message = document.getElementById("piket-message");
-  message.textContent = "✅ Jadwal piket berhasil disimpan di browser ini.";
-
-  window.setTimeout(() => {
-    message.textContent = "";
-  }, 3500);
-});
-
-loadPiket();
-
-// ========================================
+// ================================
 // DAFTAR TUGAS KELAS
-// ========================================
+// ================================
 
 const taskForm = document.getElementById("task-form");
 const taskNameInput = document.getElementById("task-name");
@@ -193,9 +209,7 @@ try {
   const storedTasks = localStorage.getItem("kelas8d-tasks");
   tasks = storedTasks ? JSON.parse(storedTasks) : [];
 
-  if (!Array.isArray(tasks)) {
-    tasks = [];
-  }
+  if (!Array.isArray(tasks)) tasks = [];
 } catch {
   tasks = [];
 }
@@ -205,13 +219,16 @@ function saveTasks() {
 }
 
 function renderTasks() {
+  if (!tasksContainer || !taskCount) return;
+
   tasksContainer.replaceChildren();
   taskCount.textContent = `${tasks.length} tugas`;
 
   if (tasks.length === 0) {
     const empty = document.createElement("p");
     empty.className = "empty-state";
-    empty.textContent = "🎉 Belum ada tugas. Semoga harimu menyenangkan!";
+    empty.textContent =
+      "🎉 Belum ada tugas. Semoga harimu menyenangkan!";
     tasksContainer.appendChild(empty);
     return;
   }
@@ -241,19 +258,15 @@ function renderTasks() {
 
     const meta = document.createElement("div");
     meta.className = "task-meta";
+    meta.textContent =
+      `${task.subject}${task.date ? " · Tenggat: " + task.date : " · Tenggat belum ditentukan"}`;
 
-    const dueDate = task.date
-      ? ` · Tenggat: ${task.date}`
-      : " · Tenggat belum ditentukan";
-
-    meta.textContent = `${task.subject}${dueDate}`;
     details.append(name, meta);
 
     const deleteButton = document.createElement("button");
     deleteButton.className = "delete-task";
     deleteButton.type = "button";
     deleteButton.textContent = "Hapus";
-    deleteButton.setAttribute("aria-label", `Hapus tugas ${task.name}`);
 
     deleteButton.addEventListener("click", () => {
       tasks = tasks.filter(item => item.id !== task.id);
@@ -266,83 +279,35 @@ function renderTasks() {
   });
 }
 
-taskForm.addEventListener("submit", event => {
-  event.preventDefault();
+if (taskForm && taskNameInput && taskSubjectInput && taskDateInput) {
+  taskForm.addEventListener("submit", event => {
+    event.preventDefault();
 
-  const name = taskNameInput.value.trim();
-  const subject = taskSubjectInput.value.trim();
-  const date = taskDateInput.value;
+    const name = taskNameInput.value.trim();
+    const subject = taskSubjectInput.value.trim();
+    const date = taskDateInput.value;
 
-  if (!name || !subject) return;
+    if (!name || !subject) return;
 
-  tasks.push({
-    id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
-    name,
-    subject,
-    date,
-    done: false
+    tasks.push({
+      id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
+      name,
+      subject,
+      date,
+      done: false
+    });
+
+    saveTasks();
+    renderTasks();
+    taskForm.reset();
   });
-
-  saveTasks();
-  renderTasks();
-  taskForm.reset();
-});
+}
 
 renderTasks();
 
-const jadwalPiket = {
-  Senin: ["Taqi", "Abi", "Wafiy", "Retha", "Jihan"],
-  Selasa: ["Wildan", "Vergy", "Ega", "Ifa", "Vio"],
-  Rabu: ["Sany", "Tristan", "Arif", "Najwa", "Aqila"],
-  Kamis: ["Aenzy", "Aqla", "Khian", "Vea", "Dipa", "Ayu"],
-  Jumat: ["Wahyu", "Arka", "Zoga", "Jesicca", "Nita", "Tika"],
-  Sabtu: ["Arka", "Rendy", "Kayla", "Icha", "Lita"]
-};
-
-// Menampilkan jadwal piket ke halaman website
-function tampilkanJadwalPiket() {
-  const wadah =
-    document.getElementById("daftar-piket") ||
-    document.getElementById("jadwal-piket");
-
-  if (!wadah) {
-    console.warn(
-      "Elemen jadwal piket tidak ditemukan. " +
-      "Tambahkan id='daftar-piket' pada bagian jadwal piket di index.html."
-    );
-    return;
-  }
-
-  wadah.innerHTML = "";
-
-  const ikonHari = {
-    Senin: "🐠",
-    Selasa: "🐬",
-    Rabu: "🐢",
-    Kamis: "🪼",
-    Jumat: "🐙",
-    Sabtu: "🐳"
-  };
-
-  for (const [hari, siswa] of Object.entries(jadwalPiket)) {
-    const kartu = document.createElement("div");
-    kartu.className = "piket-card";
-
-    const judul = document.createElement("h3");
-    judul.textContent = `${ikonHari[hari]} ${hari}`;
-
-    const daftar = document.createElement("ul");
-
-    siswa.forEach((nama) => {
-      const item = document.createElement("li");
-      item.textContent = nama;
-      daftar.appendChild(item);
-    });
-
-    kartu.appendChild(judul);
-    kartu.appendChild(daftar);
-    wadah.appendChild(kartu);
-  }
+// Tampilkan jadwal piket setelah dokumen siap.
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", tampilkanJadwalPiket);
+} else {
+  tampilkanJadwalPiket();
 }
-
-document.addEventListener("DOMContentLoaded", tampilkanJadwalPiket);
