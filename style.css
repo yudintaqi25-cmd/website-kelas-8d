@@ -1145,3 +1145,41 @@ input[type="date"] {
     transition-duration: .01ms !important;
   }
 }
+
+.piket-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
+  margin-top: 24px;
+}
+
+.piket-card {
+  padding: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 20px;
+  background: rgba(0, 90, 150, 0.35);
+  backdrop-filter: blur(12px);
+  color: white;
+  box-shadow: 0 8px 25px rgba(0, 30, 80, 0.18);
+  transition: transform 0.25s ease;
+}
+
+.piket-card:hover {
+  transform: translateY(-5px);
+}
+
+.piket-card h3 {
+  margin-top: 0;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.piket-card ul {
+  margin-bottom: 0;
+  padding-left: 22px;
+  line-height: 1.9;
+}
+
+.piket-card li::marker {
+  color: #7deaff;
+}
