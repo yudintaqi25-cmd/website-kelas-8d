@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#063b5b">
+  <meta name="description" content="Website resmi kelas 8D dengan tema dunia bawah laut.">
   <title>KELAS 8D | Dunia Bawah Laut</title>
   <link rel="stylesheet" href="style.css">
 </head>
@@ -18,7 +19,7 @@
   </div>
   <div class="background-overlay"></div>
 
-  <!-- HIASAN IKAN -->
+  <!-- HIASAN IKAN DAN GELEMBUNG -->
   <div class="ocean-bg" aria-hidden="true">
     <span class="fish fish-1">🐠</span>
     <span class="fish fish-2">🐟</span>
@@ -32,7 +33,7 @@
     <span class="bubble bubble-5"></span>
   </div>
 
-  <!-- HEADER -->
+  <!-- HEADER DAN NAVIGASI -->
   <header class="header">
     <a class="brand" href="#beranda" data-go="beranda">
       <span class="brand-icon">🌊</span>
@@ -42,25 +43,29 @@
       </span>
     </a>
 
-    <button class="menu-toggle" id="menu-toggle"
-      aria-label="Buka menu navigasi" aria-expanded="false">
-      ☰
-    </button>
+    <button
+      class="menu-toggle"
+      id="menu-toggle"
+      aria-label="Buka menu navigasi"
+      aria-expanded="false"
+      type="button"
+    >☰</button>
 
-    <!-- TOMBOL NAVIGASI -->
     <nav class="nav" id="nav">
-      <button class="nav-link active" data-page="beranda">🏠 Beranda</button>
-      <button class="nav-link" data-page="pelajaran">📚 Jadwal Pelajaran</button>
-      <button class="nav-link" data-page="seragam">👕 Jadwal Seragam</button>
-      <button class="nav-link" data-page="piket">🧹 Piket Kelas</button>
-      <button class="nav-link" data-page="tugas">📝 Tugas Kelas</button>
-      <button class="nav-link" data-page="pengumuman">📢 Pengumuman</button>
+      <button class="nav-link active" data-page="beranda" type="button">🏠 Beranda</button>
+      <button class="nav-link" data-page="pelajaran" type="button">📚 Jadwal Pelajaran</button>
+      <button class="nav-link" data-page="seragam" type="button">👕 Jadwal Seragam</button>
+      <button class="nav-link" data-page="piket" type="button">🧹 Piket Kelas</button>
+      <button class="nav-link" data-page="tugas" type="button">📝 Tugas Kelas</button>
+      <button class="nav-link" data-page="pengumuman" type="button">📢 Pengumuman</button>
     </nav>
   </header>
 
   <main class="container">
 
-    <!-- HALAMAN BERANDA -->
+    <!-- =========================
+         HALAMAN BERANDA
+    ========================== -->
     <section class="page active" id="page-beranda">
       <div class="hero glass">
         <div class="hero-content">
@@ -72,10 +77,10 @@
           </p>
 
           <div class="hero-buttons">
-            <button class="primary-button" data-go="pelajaran">
+            <button class="primary-button" data-go="pelajaran" type="button">
               Lihat Jadwal <span>→</span>
             </button>
-            <button class="secondary-button" data-go="piket">
+            <button class="secondary-button" data-go="piket" type="button">
               Jadwal Piket
             </button>
           </div>
@@ -106,28 +111,28 @@
       </div>
 
       <div class="info-grid">
-        <button class="info-card glass" data-go="pelajaran">
+        <button class="info-card glass" data-go="pelajaran" type="button">
           <span class="card-icon blue">📚</span>
           <span class="card-title">Jadwal Pelajaran</span>
           <span class="card-description">Lihat pelajaran dari Senin sampai Sabtu.</span>
           <span class="card-arrow">Buka jadwal →</span>
         </button>
 
-        <button class="info-card glass" data-go="seragam">
+        <button class="info-card glass" data-go="seragam" type="button">
           <span class="card-icon orange">👕</span>
           <span class="card-title">Jadwal Seragam</span>
           <span class="card-description">Cek seragam yang perlu dipakai setiap hari.</span>
           <span class="card-arrow">Lihat seragam →</span>
         </button>
 
-        <button class="info-card glass" data-go="piket">
+        <button class="info-card glass" data-go="piket" type="button">
           <span class="card-icon green">🧹</span>
           <span class="card-title">Piket Kelas</span>
-          <span class="card-description">Atur jadwal dan tugas kebersihan kelas.</span>
+          <span class="card-description">Lihat anggota piket setiap hari.</span>
           <span class="card-arrow">Lihat piket →</span>
         </button>
 
-        <button class="info-card glass" data-go="tugas">
+        <button class="info-card glass" data-go="tugas" type="button">
           <span class="card-icon purple">📝</span>
           <span class="card-title">Tugas Kelas</span>
           <span class="card-description">Catat tugas dan tenggat pengumpulan.</span>
@@ -144,7 +149,9 @@
       </div>
     </section>
 
-    <!-- HALAMAN JADWAL PELAJARAN -->
+    <!-- =========================
+         JADWAL PELAJARAN
+    ========================== -->
     <section class="page" id="page-pelajaran">
       <div class="page-heading glass">
         <span class="eyebrow">📖 LEARN SOMETHING NEW</span>
@@ -153,12 +160,12 @@
       </div>
 
       <div class="day-tabs" id="day-tabs">
-        <button class="day-tab active" data-day="Senin">Senin</button>
-        <button class="day-tab" data-day="Selasa">Selasa</button>
-        <button class="day-tab" data-day="Rabu">Rabu</button>
-        <button class="day-tab" data-day="Kamis">Kamis</button>
-        <button class="day-tab" data-day="Jumat">Jumat</button>
-        <button class="day-tab" data-day="Sabtu">Sabtu</button>
+        <button class="day-tab active" data-day="Senin" type="button">Senin</button>
+        <button class="day-tab" data-day="Selasa" type="button">Selasa</button>
+        <button class="day-tab" data-day="Rabu" type="button">Rabu</button>
+        <button class="day-tab" data-day="Kamis" type="button">Kamis</button>
+        <button class="day-tab" data-day="Jumat" type="button">Jumat</button>
+        <button class="day-tab" data-day="Sabtu" type="button">Sabtu</button>
       </div>
 
       <div class="glass table-card">
@@ -182,11 +189,16 @@
             <tbody id="schedule-body"></tbody>
           </table>
         </div>
-        <p class="table-note">ℹ️ Cocokkan kembali jadwal dan nama guru dengan jadwal resmi kelas.</p>
+
+        <p class="table-note">
+          ℹ️ Cocokkan kembali jadwal dan nama guru dengan jadwal resmi kelas.
+        </p>
       </div>
     </section>
 
-    <!-- HALAMAN JADWAL SERAGAM -->
+    <!-- =========================
+         JADWAL SERAGAM
+    ========================== -->
     <section class="page" id="page-seragam">
       <div class="page-heading glass">
         <span class="eyebrow">👕 BE NEAT, BE READY</span>
@@ -242,60 +254,45 @@
         <span class="notice-icon">📌</span>
         <div>
           <h3>Ingat!</h3>
-          <p>Jika ada perubahan seragam karena upacara atau kegiatan sekolah, ikuti pengumuman dari guru.</p>
+          <p>
+            Jika ada perubahan seragam karena upacara atau kegiatan sekolah,
+            ikuti pengumuman dari guru.
+          </p>
         </div>
       </div>
     </section>
 
-    <!-- HALAMAN PIKET -->
+    <!-- =========================
+         JADWAL PIKET
+    ========================== -->
     <section class="page" id="page-piket">
       <div class="page-heading glass">
         <span class="eyebrow">🧹 CLEAN CLASS, HAPPY CLASS</span>
-        <h1>Piket Kelas</h1>
-        <p>Isi nama anggota piket sesuai pembagian resmi kelas 8D.</p>
+        <h1>Jadwal Piket Kelas 8D</h1>
+        <p>
+          Kenali anggota piket setiap hari dan jaga kebersihan
+          kelas kita bersama-sama!
+        </p>
       </div>
 
-      <div class="piket-grid">
-        <article class="piket-card glass">
-          <div class="piket-top"><span>🌞</span><h2>Senin</h2></div>
-          <label for="piket-senin">Nama anggota</label>
-          <textarea id="piket-senin" placeholder="Masukkan nama anggota piket..."></textarea>
-        </article>
-        <article class="piket-card glass">
-          <div class="piket-top"><span>🌊</span><h2>Selasa</h2></div>
-          <label for="piket-selasa">Nama anggota</label>
-          <textarea id="piket-selasa" placeholder="Masukkan nama anggota piket..."></textarea>
-        </article>
-        <article class="piket-card glass">
-          <div class="piket-top"><span>🐬</span><h2>Rabu</h2></div>
-          <label for="piket-rabu">Nama anggota</label>
-          <textarea id="piket-rabu" placeholder="Masukkan nama anggota piket..."></textarea>
-        </article>
-        <article class="piket-card glass">
-          <div class="piket-top"><span>🐚</span><h2>Kamis</h2></div>
-          <label for="piket-kamis">Nama anggota</label>
-          <textarea id="piket-kamis" placeholder="Masukkan nama anggota piket..."></textarea>
-        </article>
-        <article class="piket-card glass">
-          <div class="piket-top"><span>🪸</span><h2>Jumat</h2></div>
-          <label for="piket-jumat">Nama anggota</label>
-          <textarea id="piket-jumat" placeholder="Masukkan nama anggota piket..."></textarea>
-        </article>
-        <article class="piket-card glass">
-          <div class="piket-top"><span>🐳</span><h2>Sabtu</h2></div>
-          <label for="piket-sabtu">Nama anggota</label>
-          <textarea id="piket-sabtu" placeholder="Masukkan nama anggota piket..."></textarea>
-        </article>
-      </div>
+      <!-- Nama anggota ditampilkan oleh script.js -->
+      <div id="daftar-piket" class="piket-grid"></div>
 
-      <div class="action-row">
-        <button class="primary-button" id="save-piket">💾 Simpan Jadwal Piket</button>
-        <span class="save-message" id="piket-message" aria-live="polite"></span>
+      <div class="notice glass">
+        <span class="notice-icon">🐠</span>
+        <div>
+          <h3>Pesan untuk Kelas 8D</h3>
+          <p>
+            Datang tepat waktu, bekerja sama, dan pastikan
+            kelas bersih sebelum kegiatan belajar dimulai.
+          </p>
+        </div>
       </div>
-      <p class="table-note">Jadwal piket disimpan di browser pada perangkat ini.</p>
     </section>
 
-    <!-- HALAMAN TUGAS -->
+    <!-- =========================
+         TUGAS KELAS
+    ========================== -->
     <section class="page" id="page-tugas">
       <div class="page-heading glass">
         <span class="eyebrow">✏️ DON'T FORGET YOUR TASKS</span>
@@ -306,32 +303,56 @@
       <form class="glass task-form" id="task-form">
         <div class="form-field">
           <label for="task-name">Nama tugas</label>
-          <input id="task-name" type="text" placeholder="Contoh: Latihan Matematika" required>
+          <input
+            id="task-name"
+            type="text"
+            placeholder="Contoh: Latihan Matematika"
+            required
+          >
         </div>
+
         <div class="form-field">
           <label for="task-subject">Mata pelajaran</label>
-          <input id="task-subject" type="text" placeholder="Contoh: Matematika" required>
+          <input
+            id="task-subject"
+            type="text"
+            placeholder="Contoh: Matematika"
+            required
+          >
         </div>
+
         <div class="form-field">
           <label for="task-date">Batas pengumpulan</label>
           <input id="task-date" type="date">
         </div>
+
         <button class="primary-button" type="submit">＋ Tambahkan Tugas</button>
       </form>
 
       <div class="task-list glass">
         <div class="table-heading">
-          <div><span class="eyebrow">DAFTAR TUGAS</span><h2>Tugas Saya</h2></div>
+          <div>
+            <span class="eyebrow">DAFTAR TUGAS</span>
+            <h2>Tugas Saya</h2>
+          </div>
           <span class="table-badge" id="task-count">0 tugas</span>
         </div>
+
         <div id="tasks-container" class="tasks-container">
-          <p class="empty-state">🎉 Belum ada tugas. Semoga harimu menyenangkan!</p>
+          <p class="empty-state">
+            🎉 Belum ada tugas. Semoga harimu menyenangkan!
+          </p>
         </div>
       </div>
-      <p class="table-note">Daftar tugas tersimpan di browser pada perangkat ini.</p>
+
+      <p class="table-note">
+        Daftar tugas tersimpan di browser pada perangkat ini.
+      </p>
     </section>
 
-    <!-- HALAMAN PENGUMUMAN -->
+    <!-- =========================
+         PENGUMUMAN
+    ========================== -->
     <section class="page" id="page-pengumuman">
       <div class="page-heading glass">
         <span class="eyebrow">📢 STAY UPDATED</span>
@@ -342,36 +363,63 @@
       <div class="announcement-list">
         <article class="announcement glass">
           <span class="announcement-icon">📚</span>
-          <div><span class="announcement-label">BELAJAR</span><h2>Persiapkan perlengkapan sekolah</h2><p>Periksa jadwal pelajaran dan siapkan buku sesuai mata pelajaran besok.</p></div>
+          <div>
+            <span class="announcement-label">BELAJAR</span>
+            <h2>Persiapkan perlengkapan sekolah</h2>
+            <p>
+              Periksa jadwal pelajaran dan siapkan buku sesuai
+              mata pelajaran besok.
+            </p>
+          </div>
         </article>
+
         <article class="announcement glass">
           <span class="announcement-icon">🧹</span>
-          <div><span class="announcement-label">KEBERSIHAN</span><h2>Jaga kebersihan kelas</h2><p>Buang sampah pada tempatnya dan laksanakan piket sesuai jadwal.</p></div>
+          <div>
+            <span class="announcement-label">KEBERSIHAN</span>
+            <h2>Jaga kebersihan kelas</h2>
+            <p>
+              Buang sampah pada tempatnya dan laksanakan piket
+              sesuai jadwal.
+            </p>
+          </div>
         </article>
+
         <article class="announcement glass">
           <span class="announcement-icon">👕</span>
-          <div><span class="announcement-label">SERAGAM</span><h2>Periksa jadwal seragam</h2><p>Gunakan seragam sesuai jadwal dan ketentuan terbaru dari sekolah.</p></div>
+          <div>
+            <span class="announcement-label">SERAGAM</span>
+            <h2>Periksa jadwal seragam</h2>
+            <p>
+              Gunakan seragam sesuai jadwal dan ketentuan terbaru
+              dari sekolah.
+            </p>
+          </div>
         </article>
       </div>
-      <p class="table-note">Pengumuman di atas adalah pengingat umum. Tambahkan pengumuman resmi dari wali kelas jika diperlukan.</p>
+
+      <p class="table-note">
+        Pengumuman di atas adalah pengingat umum. Tambahkan
+        pengumuman resmi dari wali kelas jika diperlukan.
+      </p>
     </section>
 
   </main>
 
+  <!-- FOOTER -->
   <footer class="footer">
     <div class="footer-wave">🌊 🐠 🐚 🐬 🌊</div>
     <p><strong>KELAS 8D</strong> · Belajar bersama, tumbuh bersama.</p>
     <small>Made with 💙 by Kelas 8D</small>
   </footer>
 
-  <button id="back-to-top" class="back-to-top" aria-label="Kembali ke atas">↑</button>
+  <button
+    id="back-to-top"
+    class="back-to-top"
+    aria-label="Kembali ke atas"
+    type="button"
+  >↑</button>
 
   <script src="script.js"></script>
 </body>
 </html>
-
-<section id="page-piket" class="page">
-  <h2>🫧 Jadwal Piket Kelas 8D</h2>
-  <p>Jaga kebersihan kelas kita, seperti laut yang indah!</p>
-  <div id="daftar-piket" class="piket-grid"></div>
-</section>
