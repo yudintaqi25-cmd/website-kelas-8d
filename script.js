@@ -302,4 +302,245 @@ document.addEventListener("DOMContentLoaded", function () {
       const nama = document.createElement("strong");
       nama.textContent = tugas.nama;
 
-      const
+      const detail = document.createElement("p");
+      detail.textContent = tugas.mapel +
+        (tugas.tanggal ? " • Batas: " + tugas.tanggal : "");
+
+      informasi.append(nama, detail);
+
+      const selesai = document.createElement("input");
+      selesai.type = "checkbox";
+      selesai.checked = Boolean(tugas.selesai);
+      selesai.setAttribute("aria-label", "Tandai tugas selesai");
+
+      selesai.addEventListener("change", async function () {
+        tugas.selesai = selesai.checked;
+        try {
+          await db.collection("tugas").doc(tugas.id).update({ selesai: tugas.selesai });
+          renderTugas();
+        } catch (error) {
+          console.warn("Gagal memperbarui status tugas:", error);
+        }
+      });
+
+      const hapus = document.createElement("button");
+      hapus.type = "button";
+      hapus.className = "btn-delete";
+      hapus.textContent = "🗑️";
+      hapus.setAttribute("aria-label", "Hapus tugas");
+
+      hapus.addEventListener("click", async function () {
+        try {
+          await db.collection("tugas").doc(tugas.id).delete();
+          daftarTugas = daftarTugas.filter(function (t) {
+            return t.id !== tugas.id;
+          });
+          renderTugas();
+        } catch (error) {
+          console.warn("Gagal menghapus tugas:", error);
+        }
+      });
+
+      item.append(informasi, selesai, hapus);
+      taskList.appendChild(item);
+    });
+  }
+
+  if (taskForm && taskName && taskSubject) {
+    taskForm.addEventListener("submit", async function (event) {
+      event.preventDefault();
+
+      const nama = taskName.value.trim();
+      const mapel = taskSubject.value.trim();
+
+      if (!nama || !mapel) {
+        alert("Isi nama tugas dan mata pelajaran terlebih dahulu.");
+        return;
+      }
+
+      const tugasBaru = {
+        nama: nama,
+        mapel: mapel,
+        tanggal: taskDate ? taskDate.value : "",
+        selesai: false
+      };
+
+      try {
+        const docRef = await db.collection("tugas").add(tugasBaru);
+        daftarTugas.push({
+          id: docRef.id,
+          ...tugasBaru
+        });
+        renderTugas();
+        taskForm.reset();
+      } catch (error) {
+        console.warn("Gagal menambahkan tugas ke Firestore:", error);
+      }
+    });
+  }
+
+  if (clearCompleted) {
+    clearCompleted.addEventListener("click", async function () {
+      try {
+        const tugasSelesai = daftarTugas.filter(function (tugas) {
+          return tugas.selesai;
+        });
+
+        for (const tugas of tugasSelesai) {
+          await db.collection("tugas").doc(tugas.id).delete();
+        }
+
+        daftarTugas = daftarTugas.filter(function (tugas) {
+          return !tugas.selesai;
+        });
+        renderTugas();
+      } catch (error) {
+        console.warn("Gagal membersihkan tugas selesai:", error);
+      }
+    });
+  }
+
+  // =====================================
+  // 5. PENGUMUMAN KELAS (FIRESTORE)
+  // =====================================
+  const announcementForm = document.getElementById("announcement-form");
+  const announcementTitle = document.getElementById("announcement-title");
+  const announcementContent = document.getElementById("announcement-content");
+  const announcementList = document.getElementById("announcement-list");
+
+  let daftarPengumuman = [];
+
+  async function muatPengumumanDariFirebase() {
+    try {
+      const querySnapshot = await db.collection("pengumuman").get();
+      daftarPengumuman = [];
+      querySnapshot.forEach((docSnap) => {
+        daftarPengumuman.push({
+          id: docSnap.id,
+          ...docSnap.data()
+        });
+      });
+      renderPengumuman();
+    } catch (error) {
+      console.warn("Gagal memuat pengumuman:", error);
+    }
+  }
+
+  function renderPengumuman() {
+    if (!announcementList) return;
+    announcementList.replaceChildren();
+
+    if (daftarPengumuman.length === 0) {
+      return;
+    }
+
+    daftarPengumuman.forEach(function (p) {
+      const article = document.createElement("article");
+      article.className = "announcement-card";
+      article.style.display = "flex";
+      article.style.justifyContent = "space-between";
+      article.style.alignItems = "center";
+
+      const leftWrapper = document.createElement("div");
+      leftWrapper.style.display = "flex";
+      leftWrapper.style.alignItems = "flex-start";
+      leftWrapper.style.gap = "15px";
+
+      const iconSpan = document.createElement("span");
+      iconSpan.className = "announcement-icon";
+      iconSpan.textContent = "📢";
+
+      const divContent = document.createElement("div");
+      
+      const h2 = document.createElement("h2");
+      h2.textContent = p.judul;
+
+      const pDesc = document.createElement("p");
+      pDesc.textContent = p.isi;
+
+      divContent.append(h2, pDesc);
+      leftWrapper.append(iconSpan, divContent);
+
+      const hapusBtn = document.createElement("button");
+      hapusBtn.type = "button";
+      hapusBtn.textContent = "🗑️ Hapus";
+      hapusBtn.className = "btn btn-secondary";
+      hapusBtn.style.padding = "6px 12px";
+      hapusBtn.style.fontSize = "0.9rem";
+      hapusBtn.style.whiteSpace = "nowrap";
+
+      hapusBtn.addEventListener("click", async function () {
+        if (confirm("Yakin ingin menghapus pengumuman ini?")) {
+          try {
+            await db.collection("pengumuman").doc(p.id).delete();
+            daftarPengumuman = daftarPengumuman.filter(function (item) {
+              return item.id !== p.id;
+            });
+            renderPengumuman();
+          } catch (error) {
+            console.warn("Gagal menghapus pengumuman:", error);
+          }
+        }
+      });
+
+      article.append(leftWrapper, hapusBtn);
+      announcementList.appendChild(article);
+    });
+  }
+
+  if (announcementForm && announcementTitle && announcementContent) {
+    announcementForm.addEventListener("submit", async function (event) {
+      event.preventDefault();
+
+      const judul = announcementTitle.value.trim();
+      const isi = announcementContent.value.trim();
+
+      if (!judul || !isi) {
+        alert("Judul dan isi pengumuman wajib diisi.");
+        return;
+      }
+
+      const pengumumanBaru = {
+        judul: judul,
+        isi: isi,
+        tanggal: new Date()
+      };
+
+      try {
+        const docRef = await db.collection("pengumuman").add(pengumumanBaru);
+        daftarPengumuman.unshift({
+          id: docRef.id,
+          ...pengumumanBaru
+        });
+        renderPengumuman();
+        announcementForm.reset();
+      } catch (error) {
+        console.warn("Gagal menerbitkan pengumuman:", error);
+      }
+    });
+  }
+
+  // =====================================
+  // 6. KEMBALI KE ATAS
+  // =====================================
+  if (backToTop) {
+    window.addEventListener("scroll", function () {
+      backToTop.classList.toggle("show", window.scrollY > 300);
+    });
+
+    backToTop.addEventListener("click", function () {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  }
+
+  // =====================================
+  // 7. INISIALISASI TAMPILAN AWAL
+  // =====================================
+  bukaHalaman("beranda");
+  tampilkanJadwal("Senin");
+  tampilkanPiket("Senin");
+  muatTugasDariFirebase();
+  muatPengumumanDariFirebase();
+
+  console.log("KELAS 8D: Seluruh fitur & Database siap!");
+});
