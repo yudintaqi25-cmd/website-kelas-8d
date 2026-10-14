@@ -1,47 +1,69 @@
 
 document.addEventListener("DOMContentLoaded", () => {
+  // ==========================================
+  // 1. NAVIGASI HALAMAN
+  // ==========================================
   const pages = document.querySelectorAll(".page");
   const navLinks = document.querySelectorAll(".nav-link[data-page]");
   const navMenu = document.getElementById("nav-menu");
   const menuToggle = document.getElementById("menu-toggle");
   const backToTop = document.getElementById("back-to-top");
 
-  // NAVIGASI
   function showPage(name) {
     const target = document.getElementById(`page-${name}`);
     if (!target) return;
 
-    pages.forEach(page => page.classList.toggle("active", page === target));
-
-    navLinks.forEach(link => {
-      const active = link.dataset.page === name;
-      link.classList.toggle("active", active);
-      if (active) link.setAttribute("aria-current", "page");
-      else link.removeAttribute("aria-current");
+    pages.forEach(page => {
+      page.classList.toggle("active", page === target);
     });
 
-    navMenu.classList.remove("open");
-    menuToggle.setAttribute("aria-expanded", "false");
-    menuToggle.setAttribute("aria-label", "Buka menu");
+    navLinks.forEach(link => {
+      const selected = link.dataset.page === name;
+      link.classList.toggle("active", selected);
+
+      if (selected) {
+        link.setAttribute("aria-current", "page");
+      } else {
+        link.removeAttribute("aria-current");
+      }
+    });
+
+    navMenu?.classList.remove("open");
+    menuToggle?.setAttribute("aria-expanded", "false");
+
+    if (menuToggle) {
+      menuToggle.setAttribute("aria-label", "Buka menu");
+    }
+
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   navLinks.forEach(link => {
-    link.addEventListener("click", () => showPage(link.dataset.page));
+    link.addEventListener("click", () => {
+      showPage(link.dataset.page);
+    });
   });
 
   document.querySelectorAll("[data-go]").forEach(button => {
-    button.addEventListener("click", () => showPage(button.dataset.go));
+    button.addEventListener("click", () => {
+      showPage(button.dataset.go);
+    });
   });
 
-  // MENU HP
-  menuToggle.addEventListener("click", () => {
+  // Menu untuk HP
+  menuToggle?.addEventListener("click", () => {
     const open = navMenu.classList.toggle("open");
+
     menuToggle.setAttribute("aria-expanded", String(open));
-    menuToggle.setAttribute("aria-label", open ? "Tutup menu" : "Buka menu");
+    menuToggle.setAttribute(
+      "aria-label",
+      open ? "Tutup menu" : "Buka menu"
+    );
   });
 
-  // JADWAL PELAJARAN
+  // ==========================================
+  // 2. JADWAL PELAJARAN
+  // ==========================================
   const schedule = {
     Senin: [
       ["Upacara", "Kegiatan sekolah"],
@@ -50,6 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
       ["Bahasa Indonesia", "Yuan Malista Ayu Septiwi"],
       ["Literasi", "Nadia Fadilla Dianty"]
     ],
+
     Selasa: [
       ["IPS", "Amalia Zhafira Fani"],
       ["Matematika", "Iska Agustina"],
@@ -57,24 +80,28 @@ document.addEventListener("DOMContentLoaded", () => {
       ["IPA", "Nurmala Maulidina Helayanti"],
       ["Sholat Dhuhur", "Kegiatan sekolah"]
     ],
+
     Rabu: [
       ["IPA", "Nurmala Maulidina Helayanti"],
       ["Matematika", "Iska Agustina"],
       ["Bahasa Inggris", "Sri Sulistijo Andajani"],
       ["Literasi", "Kegiatan literasi"]
     ],
+
     Kamis: [
       ["Bahasa Jawa", "Drs. Budiono"],
       ["PJOK", "Oki Dwijayanto"],
       ["Bahasa Indonesia", "Yuan Malista Ayu Septiwi"],
       ["Literasi Bersama", "Kegiatan literasi"]
     ],
+
     Jumat: [
       ["Jum'ani & Literasi", "Kegiatan sekolah"],
       ["Informatika", "Riski Dian Ratri"],
       ["BK", "Ana Listyarini"],
       ["MBG & Tegur", "Kegiatan sekolah"]
     ],
+
     Sabtu: [
       ["Senam & Adiwiyata", "Kegiatan sekolah"],
       ["PPKN", "Diana Novita Latifatul L."],
@@ -88,16 +115,27 @@ document.addEventListener("DOMContentLoaded", () => {
   const scheduleTabs = document.querySelectorAll("[data-day]");
 
   function renderSchedule(day) {
+    if (!scheduleTitle || !scheduleBody) return;
+
     scheduleTitle.textContent = `Jadwal Hari ${day}`;
     scheduleBody.replaceChildren();
 
-    (schedule[day] || []).forEach(([subject, teacher]) => {
+    const lessons = schedule[day] || [];
+
+    if (lessons.length === 0) {
+      const empty = document.createElement("p");
+      empty.textContent = "Belum ada jadwal untuk hari ini.";
+      empty.className = "empty-state";
+      scheduleBody.appendChild(empty);
+    }
+
+    lessons.forEach(([subject, teacher], index) => {
       const row = document.createElement("div");
       row.className = "schedule-row";
 
       const subjectElement = document.createElement("span");
       subjectElement.className = "schedule-subject";
-      subjectElement.textContent = subject;
+      subjectElement.textContent = `${index + 1}. ${subject}`;
 
       const teacherElement = document.createElement("span");
       teacherElement.className = "schedule-time";
@@ -108,17 +146,23 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     scheduleTabs.forEach(tab => {
-      tab.classList.toggle("active", tab.dataset.day === day);
+      const selected = tab.dataset.day === day;
+      tab.classList.toggle("active", selected);
+      tab.setAttribute("aria-pressed", String(selected));
     });
   }
 
   scheduleTabs.forEach(tab => {
-    tab.addEventListener("click", () => renderSchedule(tab.dataset.day));
+    tab.addEventListener("click", () => {
+      renderSchedule(tab.dataset.day);
+    });
   });
 
   renderSchedule("Senin");
 
-  // JADWAL PIKET
+  // ==========================================
+  // 3. JADWAL PIKET BERTEMA LAUT
+  // ==========================================
   const piketData = {
     Senin: ["Taqi", "Abi", "Wafiy", "Retha", "Jihan"],
     Selasa: ["Wildan", "Vergy", "Ega", "Ifa", "Vio"],
@@ -133,27 +177,55 @@ document.addEventListener("DOMContentLoaded", () => {
   const piketTabs = document.querySelectorAll("[data-piket]");
 
   function renderPiket(day) {
-    piketTitle.textContent = `Petugas Piket ${day}`;
+    if (!piketTitle || !piketList) return;
+
+    piketTitle.textContent = `🫧 Petugas Piket ${day}`;
     piketList.replaceChildren();
 
-    (piketData[day] || []).forEach(name => {
-      const item = document.createElement("li");
-      item.textContent = name;
-      piketList.appendChild(item);
-    });
+    const names = piketData[day] || [];
+
+    if (names.length === 0) {
+      const empty = document.createElement("li");
+      empty.textContent = "Belum ada petugas piket.";
+      piketList.appendChild(empty);
+    } else {
+      names.forEach((name, index) => {
+        const item = document.createElement("li");
+
+        const number = document.createElement("span");
+        number.textContent =
+          `${String(index + 1).padStart(2, "0")} · `;
+
+        const fish = document.createElement("span");
+        fish.textContent = "🐠 ";
+
+        const person = document.createElement("span");
+        person.textContent = name;
+
+        item.replaceChildren(number, fish, person);
+        piketList.appendChild(item);
+      });
+    }
 
     piketTabs.forEach(tab => {
-      tab.classList.toggle("active", tab.dataset.piket === day);
+      const selected = tab.dataset.piket === day;
+
+      tab.classList.toggle("active", selected);
+      tab.setAttribute("aria-pressed", String(selected));
     });
   }
 
   piketTabs.forEach(tab => {
-    tab.addEventListener("click", () => renderPiket(tab.dataset.piket));
+    tab.addEventListener("click", () => {
+      renderPiket(tab.dataset.piket);
+    });
   });
 
   renderPiket("Senin");
 
-  // DAFTAR TUGAS
+  // ==========================================
+  // 4. DAFTAR TUGAS
+  // ==========================================
   const taskForm = document.getElementById("task-form");
   const taskName = document.getElementById("task-name");
   const taskSubject = document.getElementById("task-subject");
@@ -167,31 +239,36 @@ document.addEventListener("DOMContentLoaded", () => {
   try {
     const saved = localStorage.getItem("kelas8d-tasks");
     const parsed = saved ? JSON.parse(saved) : [];
+
     tasks = Array.isArray(parsed) ? parsed : [];
   } catch (error) {
-    console.warn("Data tugas tidak dapat dibaca.", error);
+    console.warn("Data tugas gagal dibaca.", error);
   }
 
   function saveTasks() {
     try {
       localStorage.setItem("kelas8d-tasks", JSON.stringify(tasks));
     } catch (error) {
-      console.warn("Data tugas tidak dapat disimpan.", error);
+      console.warn("Data tugas gagal disimpan.", error);
+      alert("Penyimpanan tidak tersedia di browser ini.");
     }
   }
 
   function renderTasks() {
+    if (!taskList || !taskSummary) return;
+
     taskList.replaceChildren();
 
     const completed = tasks.filter(task => task.completed).length;
+    const remaining = tasks.length - completed;
+
     taskSummary.textContent =
-      `${tasks.length} tugas • ${completed} selesai • ` +
-      `${tasks.length - completed} belum selesai`;
+      `${tasks.length} tugas · ${completed} selesai · ${remaining} belum selesai`;
 
     if (tasks.length === 0) {
       const empty = document.createElement("p");
       empty.className = "empty-state";
-      empty.textContent = "Belum ada tugas. Tambahkan tugas pertamamu!";
+      empty.textContent = "🐠 Belum ada tugas. Tambahkan tugas pertamamu!";
       taskList.appendChild(empty);
       return;
     }
@@ -199,12 +276,16 @@ document.addEventListener("DOMContentLoaded", () => {
     tasks.forEach(task => {
       const item = document.createElement("div");
       item.className = "task-item";
-      if (task.completed) item.classList.add("completed");
+
+      if (task.completed) {
+        item.classList.add("completed");
+      }
 
       const checkbox = document.createElement("input");
       checkbox.type = "checkbox";
       checkbox.checked = Boolean(task.completed);
       checkbox.setAttribute("aria-label", "Tandai tugas selesai");
+
       checkbox.addEventListener("change", () => {
         task.completed = checkbox.checked;
         saveTasks();
@@ -219,7 +300,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const info = document.createElement("small");
       info.textContent = task.date
-        ? `${task.subject} • Batas: ${task.date}`
+        ? `${task.subject} · Batas: ${task.date}`
         : task.subject;
 
       details.append(title, info);
@@ -228,6 +309,7 @@ document.addEventListener("DOMContentLoaded", () => {
       remove.type = "button";
       remove.className = "delete-task";
       remove.textContent = "Hapus";
+
       remove.addEventListener("click", () => {
         tasks = tasks.filter(entry => entry.id !== task.id);
         saveTasks();
@@ -239,7 +321,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  taskForm.addEventListener("submit", event => {
+  taskForm?.addEventListener("submit", event => {
     event.preventDefault();
 
     const name = taskName.value.trim();
@@ -264,7 +346,7 @@ document.addEventListener("DOMContentLoaded", () => {
     taskName.focus();
   });
 
-  clearCompleted.addEventListener("click", () => {
+  clearCompleted?.addEventListener("click", () => {
     tasks = tasks.filter(task => !task.completed);
     saveTasks();
     renderTasks();
@@ -272,16 +354,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
   renderTasks();
 
-  // KEMBALI KE ATAS
+  // ==========================================
+  // 5. TOMBOL KEMBALI KE ATAS
+  // ==========================================
   function updateBackToTop() {
+    if (!backToTop) return;
+
     backToTop.classList.toggle("visible", window.scrollY > 300);
   }
 
-  window.addEventListener("scroll", updateBackToTop, { passive: true });
-  backToTop.addEventListener("click", () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+  window.addEventListener("scroll", updateBackToTop, {
+    passive: true
+  });
+
+  backToTop?.addEventListener("click", () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
   });
 
   updateBackToTop();
-  console.log("Website KELAS 8D berhasil dimuat.");
+
+  console.log("🌊 KELAS 8D berhasil dimuat!");
 });
