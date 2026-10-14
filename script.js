@@ -430,17 +430,10 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!announcementList) return;
     announcementList.replaceChildren();
 
-    if (daftarPengumuman.length === 0) {
-      const pesan = document.createElement("p");
-      pesan.textContent = "📢 Belum ada pengumuman kelas.";
-      pesan.style.color = "rgba(255,255,255,0.7)";
-      announcementList.appendChild(pesan);
-      return;
-    }
-
     daftarPengumuman.forEach(function (p) {
       const article = document.createElement("article");
       article.className = "announcement-card";
+      article.style.position = "relative";
 
       const iconSpan = document.createElement("span");
       iconSpan.className = "announcement-icon";
@@ -455,7 +448,33 @@ document.addEventListener("DOMContentLoaded", function () {
       pDesc.textContent = p.isi;
 
       divContent.append(h2, pDesc);
-      article.append(iconSpan, divContent);
+
+      const hapusBtn = document.createElement("button");
+      hapusBtn.type = "button";
+      hapusBtn.className = "btn-delete";
+      hapusBtn.textContent = "🗑️";
+      hapusBtn.setAttribute("aria-label", "Hapus pengumuman");
+      hapusBtn.style.marginLeft = "auto";
+      hapusBtn.style.background = "transparent";
+      hapusBtn.style.border = "none";
+      hapusBtn.style.cursor = "pointer";
+      hapusBtn.style.fontSize = "1.2rem";
+
+      hapusBtn.addEventListener("click", async function () {
+        if (confirm("Yakin ingin menghapus pengumuman ini?")) {
+          try {
+            await db.collection("pengumuman").doc(p.id).delete();
+            daftarPengumuman = daftarPengumuman.filter(function (item) {
+              return item.id !== p.id;
+            });
+            renderPengumuman();
+          } catch (error) {
+            console.warn("Gagal menghapus pengumuman:", error);
+          }
+        }
+      });
+
+      article.append(iconSpan, divContent, hapusBtn);
       announcementList.appendChild(article);
     });
   }
@@ -480,7 +499,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       try {
         const docRef = await db.collection("pengumuman").add(pengumumanBaru);
-        daftarPengumuman.unshift({ // Menambahkan di urutan teratas
+        daftarPengumuman.unshift({
           id: docRef.id,
           ...pengumumanBaru
         });
@@ -512,7 +531,7 @@ document.addEventListener("DOMContentLoaded", function () {
   tampilkanJadwal("Senin");
   tampilkanPiket("Senin");
   muatTugasDariFirebase();
-  muatPengumumanDariFirebase(); // Memuat pengumuman online dari Firestore
+  muatPengumumanDariFirebase();
 
   console.log("KELAS 8D: Seluruh fitur & Database siap!");
 });
