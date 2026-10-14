@@ -104,14 +104,16 @@ document.addEventListener("DOMContentLoaded", function () {
   // =====================================
   // 3. JADWAL PIKET
   // =====================================
-  const piket = {
-    Senin: ["Taqi", "Abi", "Wafiy", "Retha", "Jihan"],
-    Selasa: ["Nama Petugas 1", "Nama Petugas 2", "Nama Petugas 3"],
-    Rabu: ["Nama Petugas 1", "Nama Petugas 2", "Nama Petugas 3"],
-    Kamis: ["Nama Petugas 1", "Nama Petugas 2", "Nama Petugas 3"],
-    Jumat: ["Nama Petugas 1", "Nama Petugas 2", "Nama Petugas 3"],
-    Sabtu: ["Nama Petugas 1", "Nama Petugas 2", "Nama Petugas 3"]
-  };
+  
+const piket = {
+  Senin: ["Taqi", "Abi", "Wafiy", "Retha", "Jihan"],
+  Selasa: ["Wildan", "Vergy", "Ega", "Vio", "Ifa"],
+  Rabu: ["Sany", "Tristan", "Arif", "Najwa", "Aqila"],
+  Kamis: ["Aenzy", "Aqla", "Khian", "Vea", "Dipa", "Ayu"],
+  Jumat: ["Wahyu", "Alfa", "Zoga", "Jesicca", "Nita", "Tika"],
+  Sabtu: ["Arka", "Rendy", "Kayla", "Icha", "Lita"]
+};
+
 
   const piketTabs = document.getElementById("piket-tabs");
   const piketTitle = document.getElementById("piket-title");
