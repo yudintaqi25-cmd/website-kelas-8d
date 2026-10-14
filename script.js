@@ -1,7 +1,9 @@
 
 document.addEventListener("DOMContentLoaded", function () {
+  "use strict";
+
   // =====================================
-  // 1. NAVIGASI
+  // 1. NAVIGASI HALAMAN
   // =====================================
   const pages = document.querySelectorAll(".page");
   const navLinks = document.querySelectorAll(".nav-link");
@@ -11,7 +13,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function bukaHalaman(nama) {
     const tujuan = document.getElementById("page-" + nama);
-    if (!tujuan) return;
+    if (!tujuan) {
+      console.warn("Halaman tidak ditemukan:", nama);
+      return;
+    }
 
     pages.forEach(function (page) {
       page.classList.toggle("active", page === tujuan);
@@ -41,6 +46,13 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
+  document.querySelectorAll("[data-home]").forEach(function (link) {
+    link.addEventListener("click", function (event) {
+      event.preventDefault();
+      bukaHalaman("beranda");
+    });
+  });
+
   if (menuToggle && navMenu) {
     menuToggle.addEventListener("click", function () {
       const terbuka = navMenu.classList.toggle("open");
@@ -52,12 +64,44 @@ document.addEventListener("DOMContentLoaded", function () {
   // 2. JADWAL PELAJARAN
   // =====================================
   const jadwal = {
-    Senin: ["Upacara / Wali Kelas", "Bahasa Indonesia", "Matematika", "Bahasa Inggris", "IPA"],
-    Selasa: ["Matematika", "IPS", "Bahasa Indonesia", "IPA", "PJOK"],
-    Rabu: ["Bahasa Inggris", "IPA", "Matematika", "PPKn", "Seni Budaya"],
-    Kamis: ["Bahasa Indonesia", "IPS", "Bahasa Inggris", "Informatika", "Agama"],
-    Jumat: ["Kegiatan Keagamaan", "PJOK", "Matematika", "Bahasa Indonesia"],
-    Sabtu: ["Pramuka / Kegiatan Sekolah", "Kegiatan Kelas"]
+    Senin: [
+      ["07.00 - 08.00", "Upacara / Wali Kelas"],
+      ["08.00 - 09.00", "Bahasa Indonesia"],
+      ["09.00 - 10.00", "Matematika"],
+      ["10.15 - 11.15", "Bahasa Inggris"],
+      ["11.15 - 12.00", "IPA"]
+    ],
+    Selasa: [
+      ["07.00 - 08.00", "Matematika"],
+      ["08.00 - 09.00", "IPS"],
+      ["09.00 - 10.00", "Bahasa Indonesia"],
+      ["10.15 - 11.15", "IPA"],
+      ["11.15 - 12.00", "PJOK"]
+    ],
+    Rabu: [
+      ["07.00 - 08.00", "Bahasa Inggris"],
+      ["08.00 - 09.00", "IPA"],
+      ["09.00 - 10.00", "Matematika"],
+      ["10.15 - 11.15", "PPKn"],
+      ["11.15 - 12.00", "Seni Budaya"]
+    ],
+    Kamis: [
+      ["07.00 - 08.00", "Bahasa Indonesia"],
+      ["08.00 - 09.00", "IPS"],
+      ["09.00 - 10.00", "Bahasa Inggris"],
+      ["10.15 - 11.15", "Informatika"],
+      ["11.15 - 12.00", "Agama"]
+    ],
+    Jumat: [
+      ["07.00 - 08.00", "Kegiatan Keagamaan"],
+      ["08.00 - 09.00", "PJOK"],
+      ["09.00 - 10.00", "Matematika"],
+      ["10.15 - 11.00", "Bahasa Indonesia"]
+    ],
+    Sabtu: [
+      ["07.00 - 08.00", "Pramuka / Kegiatan Sekolah"],
+      ["08.00 - 09.00", "Kegiatan Kelas"]
+    ]
   };
 
   const scheduleTabs = document.getElementById("schedule-tabs");
@@ -70,22 +114,31 @@ document.addEventListener("DOMContentLoaded", function () {
     scheduleTitle.textContent = "📚 Jadwal Hari " + hari;
     scheduleBody.replaceChildren();
 
-    (jadwal[hari] || []).forEach(function (mapel, index) {
+    const daftar = jadwal[hari] || [];
+
+    if (daftar.length === 0) {
+      const pesan = document.createElement("p");
+      pesan.textContent = "Jadwal belum tersedia.";
+      scheduleBody.appendChild(pesan);
+      return;
+    }
+
+    daftar.forEach(function (data, index) {
       const baris = document.createElement("div");
       baris.className = "schedule-item";
 
       const waktu = document.createElement("span");
       waktu.className = "schedule-time";
-      waktu.textContent = "Pelajaran " + (index + 1);
+      waktu.textContent = data[0];
 
-      const nama = document.createElement("span");
-      nama.className = "schedule-subject";
-      nama.textContent = mapel;
+      const pelajaran = document.createElement("span");
+      pelajaran.className = "schedule-subject";
+      pelajaran.textContent = data[1];
 
-      const emoji = document.createElement("span");
-      emoji.textContent = ["🐠", "🐬", "🐙", "🪼", "🐚"][index % 5];
+      const ikon = document.createElement("span");
+      ikon.textContent = ["🐠", "🐬", "🐙", "🪼", "🐚"][index % 5];
 
-      baris.append(waktu, nama, emoji);
+      baris.append(waktu, pelajaran, ikon);
       scheduleBody.appendChild(baris);
     });
   }
@@ -102,23 +155,25 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // =====================================
-  // 3. JADWAL PIKET
+  // 3. JADWAL PIKET KELAS 8D
   // =====================================
-  
-const piket = {
-  Senin: ["Taqi", "Abi", "Wafiy", "Retha", "Jihan"],
-  Selasa: ["Wildan", "Vergy", "Ega", "Vio", "Ifa"],
-  Rabu: ["Sany", "Tristan", "Arif", "Najwa", "Aqila"],
-  Kamis: ["Aenzy", "Aqla", "Khian", "Vea", "Dipa", "Ayu"],
-  Jumat: ["Wahyu", "Alfa", "Zoga", "Jesicca", "Nita", "Tika"],
-  Sabtu: ["Arka", "Rendy", "Kayla", "Icha", "Lita"]
-};
-
+  const piket = {
+    Senin: ["Taqi", "Abi", "Wafiy", "Retha", "Jihan"],
+    Selasa: ["Wildan", "Vergy", "Ega", "Vio", "Ifa"],
+    Rabu: ["Sany", "Tristan", "Arif", "Najwa", "Aqila"],
+    Kamis: ["Aenzy", "Aqla", "Khian", "Vea", "Dipa", "Ayu"],
+    Jumat: ["Wahyu", "Alfa", "Zoga", "Jesicca", "Nita", "Tika"],
+    Sabtu: ["Arka", "Rendy", "Kayla", "Icha", "Lita"]
+  };
 
   const piketTabs = document.getElementById("piket-tabs");
   const piketTitle = document.getElementById("piket-title");
   const daftarPiket = document.getElementById("daftar-piket");
-  const emojiLaut = ["🐠", "🐟", "🐡", "🦀", "🐙", "🪼", "🐚", "🦈", "🐬", "🦑", "🪸", "⭐"];
+
+  const emojiLaut = [
+    "🐠", "🐟", "🐡", "🦀", "🐙", "🪼",
+    "🐚", "🦈", "🐬", "🦑", "🪸", "⭐"
+  ];
 
   function tampilkanPiket(hari) {
     if (!piketTitle || !daftarPiket) return;
@@ -126,7 +181,17 @@ const piket = {
     piketTitle.textContent = "🌊 Petugas Piket " + hari;
     daftarPiket.replaceChildren();
 
-    (piket[hari] || []).forEach(function (nama, index) {
+    const petugas = piket[hari] || [];
+
+    if (petugas.length === 0) {
+      const pesan = document.createElement("li");
+      pesan.className = "piket-item";
+      pesan.textContent = "Petugas belum ditentukan.";
+      daftarPiket.appendChild(pesan);
+      return;
+    }
+
+    petugas.forEach(function (nama, index) {
       const item = document.createElement("li");
       item.className = "piket-item";
 
@@ -168,8 +233,8 @@ const piket = {
   const taskSummary = document.getElementById("task-summary");
   const taskList = document.getElementById("task-list");
   const clearCompleted = document.getElementById("clear-completed");
-  const storageKey = "kelas8d_tugas_v1";
 
+  const storageKey = "kelas8d_tugas_v2";
   let daftarTugas = [];
 
   try {
@@ -192,11 +257,13 @@ const piket = {
 
     taskList.replaceChildren();
 
-    const belum = daftarTugas.filter(function (t) {
-      return !t.selesai;
+    const belumSelesai = daftarTugas.filter(function (tugas) {
+      return !tugas.selesai;
     }).length;
 
-    taskSummary.textContent = "📝 " + belum + " tugas belum selesai dari " + daftarTugas.length + " tugas.";
+    taskSummary.textContent =
+      "📝 " + belumSelesai + " tugas belum selesai dari " +
+      daftarTugas.length + " tugas.";
 
     if (daftarTugas.length === 0) {
       const pesan = document.createElement("p");
@@ -208,24 +275,28 @@ const piket = {
     daftarTugas.forEach(function (tugas) {
       const item = document.createElement("div");
       item.className = "task-item";
+
       if (tugas.selesai) item.classList.add("completed");
 
-      const info = document.createElement("div");
-      info.className = "task-info";
+      const informasi = document.createElement("div");
+      informasi.className = "task-info";
 
       const nama = document.createElement("strong");
       nama.textContent = tugas.nama;
 
       const detail = document.createElement("p");
-      detail.textContent = tugas.mapel + (tugas.tanggal ? " • Batas: " + tugas.tanggal : "");
-      info.append(nama, detail);
+      detail.textContent = tugas.mapel +
+        (tugas.tanggal ? " • Batas: " + tugas.tanggal : "");
 
-      const cek = document.createElement("input");
-      cek.type = "checkbox";
-      cek.checked = Boolean(tugas.selesai);
-      cek.setAttribute("aria-label", "Tandai tugas selesai");
-      cek.addEventListener("change", function () {
-        tugas.selesai = cek.checked;
+      informasi.append(nama, detail);
+
+      const selesai = document.createElement("input");
+      selesai.type = "checkbox";
+      selesai.checked = Boolean(tugas.selesai);
+      selesai.setAttribute("aria-label", "Tandai tugas selesai");
+
+      selesai.addEventListener("change", function () {
+        tugas.selesai = selesai.checked;
         simpanTugas();
         renderTugas();
       });
@@ -235,6 +306,7 @@ const piket = {
       hapus.className = "btn-delete";
       hapus.textContent = "🗑️";
       hapus.setAttribute("aria-label", "Hapus tugas");
+
       hapus.addEventListener("click", function () {
         daftarTugas = daftarTugas.filter(function (t) {
           return t.id !== tugas.id;
@@ -243,12 +315,12 @@ const piket = {
         renderTugas();
       });
 
-      item.append(info, cek, hapus);
+      item.append(informasi, selesai, hapus);
       taskList.appendChild(item);
     });
   }
 
-  if (taskForm) {
+  if (taskForm && taskName && taskSubject) {
     taskForm.addEventListener("submit", function (event) {
       event.preventDefault();
 
@@ -276,8 +348,8 @@ const piket = {
 
   if (clearCompleted) {
     clearCompleted.addEventListener("click", function () {
-      daftarTugas = daftarTugas.filter(function (t) {
-        return !t.selesai;
+      daftarTugas = daftarTugas.filter(function (tugas) {
+        return !tugas.selesai;
       });
       simpanTugas();
       renderTugas();
@@ -298,7 +370,7 @@ const piket = {
   }
 
   // =====================================
-  // 6. MULAI
+  // 6. INISIALISASI
   // =====================================
   tampilkanJadwal("Senin");
   tampilkanPiket("Senin");
