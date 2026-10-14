@@ -1,3 +1,32 @@
+// =====================================
+// 0. INISIALISASI FIREBASE & FIRESTORE
+// =====================================
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+import { 
+  getFirestore, 
+  collection, 
+  getDocs, 
+  addDoc, 
+  updateDoc, 
+  deleteDoc, 
+  doc 
+} from "firebase/firestore";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBLMQVwyHZKCbZ99We9KWu9CQXq2NKD0zs",
+  authDomain: "kelas-8d.firebaseapp.com",
+  databaseURL: "https://kelas-8d-default-rtdb.firebaseio.com",
+  projectId: "kelas-8d",
+  storageBucket: "kelas-8d.firebasestorage.app",
+  messagingSenderId: "943935144208",
+  appId: "1:943935144208:web:237df529c9aecb3624a595",
+  measurementId: "G-NQ5H57RTH7"
+};
+
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+const db = getFirestore(app);
 
 document.addEventListener("DOMContentLoaded", function () {
   "use strict";
@@ -224,7 +253,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // =====================================
-  // 4. DAFTAR TUGAS
+  // 4. DAFTAR TUGAS (MENGGUNAKAN FIRESTORE)
   // =====================================
   const taskForm = document.getElementById("task-form");
   const taskName = document.getElementById("task-name");
@@ -234,21 +263,22 @@ document.addEventListener("DOMContentLoaded", function () {
   const taskList = document.getElementById("task-list");
   const clearCompleted = document.getElementById("clear-completed");
 
-  const storageKey = "kelas8d_tugas_v2";
   let daftarTugas = [];
 
-  try {
-    const data = JSON.parse(localStorage.getItem(storageKey) || "[]");
-    if (Array.isArray(data)) daftarTugas = data;
-  } catch (error) {
-    console.warn("Data tugas tidak dapat dibaca.", error);
-  }
-
-  function simpanTugas() {
+  // Fungsi untuk mengambil data tugas dari Firestore
+  async function muatTugasDariFirebase() {
     try {
-      localStorage.setItem(storageKey, JSON.stringify(daftarTugas));
+      const querySnapshot = await getDocs(collection(db, "tugas"));
+      daftarTugas = [];
+      querySnapshot.forEach((docSnap) => {
+        daftarTugas.push({
+          id: docSnap.id,
+          ...docSnap.data()
+        });
+      });
+      renderTugas();
     } catch (error) {
-      console.warn("Data tugas tidak dapat disimpan.", error);
+      console.warn("Gagal memuat data dari Firestore:", error);
     }
   }
 
@@ -295,10 +325,15 @@ document.addEventListener("DOMContentLoaded", function () {
       selesai.checked = Boolean(tugas.selesai);
       selesai.setAttribute("aria-label", "Tandai tugas selesai");
 
-      selesai.addEventListener("change", function () {
+      selesai.addEventListener("change", async function () {
         tugas.selesai = selesai.checked;
-        simpanTugas();
-        renderTugas();
+        try {
+          const taskRef = doc(db, "tugas", tugas.id);
+          await updateDoc(taskRef, { selesai: tugas.selesai });
+          renderTugas();
+        } catch (error) {
+          console.warn("Gagal memperbarui status tugas:", error);
+        }
       });
 
       const hapus = document.createElement("button");
@@ -307,12 +342,16 @@ document.addEventListener("DOMContentLoaded", function () {
       hapus.textContent = "🗑️";
       hapus.setAttribute("aria-label", "Hapus tugas");
 
-      hapus.addEventListener("click", function () {
-        daftarTugas = daftarTugas.filter(function (t) {
-          return t.id !== tugas.id;
-        });
-        simpanTugas();
-        renderTugas();
+      hapus.addEventListener("click", async function () {
+        try {
+          await deleteDoc(doc(db, "tugas", tugas.id));
+          daftarTugas = daftarTugas.filter(function (t) {
+            return t.id !== tugas.id;
+          });
+          renderTugas();
+        } catch (error) {
+          console.warn("Gagal menghapus tugas:", error);
+        }
       });
 
       item.append(informasi, selesai, hapus);
@@ -321,7 +360,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   if (taskForm && taskName && taskSubject) {
-    taskForm.addEventListener("submit", function (event) {
+    taskForm.addEventListener("submit", async function (event) {
       event.preventDefault();
 
       const nama = taskName.value.trim();
@@ -332,27 +371,45 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
       }
 
-      daftarTugas.push({
-        id: Date.now().toString() + Math.random().toString(16).slice(2),
+      const tugasBaru = {
         nama: nama,
         mapel: mapel,
         tanggal: taskDate ? taskDate.value : "",
         selesai: false
-      });
+      };
 
-      simpanTugas();
-      renderTugas();
-      taskForm.reset();
+      try {
+        const docRef = await addDoc(collection(db, "tugas"), tugasBaru);
+        daftarTugas.push({
+          id: docRef.id,
+          ...tugasBaru
+        });
+        renderTugas();
+        taskForm.reset();
+      } catch (error) {
+        console.warn("Gagal menambahkan tugas ke Firestore:", error);
+      }
     });
   }
 
   if (clearCompleted) {
-    clearCompleted.addEventListener("click", function () {
-      daftarTugas = daftarTugas.filter(function (tugas) {
-        return !tugas.selesai;
-      });
-      simpanTugas();
-      renderTugas();
+    clearCompleted.addEventListener("click", async function () {
+      try {
+        const tugasSelesai = daftarTugas.filter(function (tugas) {
+          return tugas.selesai;
+        });
+
+        for (const tugas of tugasSelesai) {
+          await deleteDoc(doc(db, "tugas", tugas.id));
+        }
+
+        daftarTugas = daftarTugas.filter(function (tugas) {
+          return !tugas.selesai;
+        });
+        renderTugas();
+      } catch (error) {
+        console.warn("Gagal membersihkan tugas selesai:", error);
+      }
     });
   }
 
@@ -374,7 +431,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // =====================================
   tampilkanJadwal("Senin");
   tampilkanPiket("Senin");
-  renderTugas();
+  muatTugasDariFirebase(); // Memuat data tugas dari database Cloud Firestore
 
-  console.log("KELAS 8D: JavaScript berhasil dijalankan!");
+  console.log("KELAS 8D: JavaScript & Firebase Firestore berhasil dijalankan!");
 });
