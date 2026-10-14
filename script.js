@@ -15,7 +15,6 @@ document.addEventListener("DOMContentLoaded", function () {
     measurementId: "G-NQ5H57RTH7"
   };
 
-  // Inisialisasi Firebase
   if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
   }
@@ -402,7 +401,99 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // =====================================
-  // 5. KEMBALI KE ATAS
+  // 5. PENGUMUMAN KELAS (FIRESTORE)
+  // =====================================
+  const announcementForm = document.getElementById("announcement-form");
+  const announcementTitle = document.getElementById("announcement-title");
+  const announcementContent = document.getElementById("announcement-content");
+  const announcementList = document.getElementById("announcement-list");
+
+  let daftarPengumuman = [];
+
+  async function muatPengumumanDariFirebase() {
+    try {
+      const querySnapshot = await db.collection("pengumuman").get();
+      daftarPengumuman = [];
+      querySnapshot.forEach((docSnap) => {
+        daftarPengumuman.push({
+          id: docSnap.id,
+          ...docSnap.data()
+        });
+      });
+      renderPengumuman();
+    } catch (error) {
+      console.warn("Gagal memuat pengumuman:", error);
+    }
+  }
+
+  function renderPengumuman() {
+    if (!announcementList) return;
+    announcementList.replaceChildren();
+
+    if (daftarPengumuman.length === 0) {
+      const pesan = document.createElement("p");
+      pesan.textContent = "📢 Belum ada pengumuman kelas.";
+      pesan.style.color = "rgba(255,255,255,0.7)";
+      announcementList.appendChild(pesan);
+      return;
+    }
+
+    daftarPengumuman.forEach(function (p) {
+      const article = document.createElement("article");
+      article.className = "announcement-card";
+
+      const iconSpan = document.createElement("span");
+      iconSpan.className = "announcement-icon";
+      iconSpan.textContent = "📢";
+
+      const divContent = document.createElement("div");
+      
+      const h2 = document.createElement("h2");
+      h2.textContent = p.judul;
+
+      const pDesc = document.createElement("p");
+      pDesc.textContent = p.isi;
+
+      divContent.append(h2, pDesc);
+      article.append(iconSpan, divContent);
+      announcementList.appendChild(article);
+    });
+  }
+
+  if (announcementForm && announcementTitle && announcementContent) {
+    announcementForm.addEventListener("submit", async function (event) {
+      event.preventDefault();
+
+      const judul = announcementTitle.value.trim();
+      const isi = announcementContent.value.trim();
+
+      if (!judul || !isi) {
+        alert("Judul dan isi pengumuman wajib diisi.");
+        return;
+      }
+
+      const pengumumanBaru = {
+        judul: judul,
+        isi: isi,
+        tanggal: new Date()
+      };
+
+      try {
+        const docRef = await db.collection("pengumuman").add(pengumumanBaru);
+        daftarPengumuman.unshift({ // Menambahkan di urutan teratas
+          id: docRef.id,
+          ...pengumumanBaru
+        });
+        renderPengumuman();
+        announcementForm.reset();
+      } catch (error) {
+        console.warn("Gagal menerbitkan pengumuman:", error);
+      }
+    });
+  }
+
+  // =====================================
+  // 6. KEMBALI KE ATAS
   // =====================================
   if (backToTop) {
     window.addEventListener("scroll", function () {
@@ -415,12 +506,13 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // =====================================
-  // 6. INISIALISASI TAMPILAN AWAL
+  // 7. INISIALISASI TAMPILAN AWAL
   // =====================================
   bukaHalaman("beranda");
   tampilkanJadwal("Senin");
   tampilkanPiket("Senin");
   muatTugasDariFirebase();
+  muatPengumumanDariFirebase(); // Memuat pengumuman online dari Firestore
 
-  console.log("KELAS 8D: Website dan Firebase Firestore siap digunakan!");
+  console.log("KELAS 8D: Seluruh fitur & Database siap!");
 });
