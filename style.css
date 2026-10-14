@@ -627,3 +627,24 @@ textarea:focus-visible {
     grid-template-columns: 1fr;
   }
 }
+/* Tombol Kembali ke Beranda */
+.btn-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 15px;
+  padding: 8px 16px;
+  color: var(--mint);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: rgba(3, 39, 62, 0.7);
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.btn-back:hover {
+  background: var(--ocean);
+  color: var(--white);
+  transform: translateX(-3px);
+}
