@@ -524,3 +524,280 @@ button { -webkit-tap-highlight-color: transparent; }
     transition-duration: .01ms !important;
   }
 }
+
+/* =====================================
+   OCEAN THEME - TOMBOL DAN JADWAL PIKET
+   ===================================== */
+
+:root {
+  --sea-deep: #03263f;
+  --sea-blue: #075b80;
+  --sea-turquoise: #00b8cc;
+  --sea-cyan: #67f0f0;
+  --sea-light: #d9f8ff;
+  --sea-white: #f4fdff;
+}
+
+/* Tombol utama */
+.btn {
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px;
+  padding: 12px 20px;
+  font-weight: 800;
+  letter-spacing: .2px;
+  box-shadow: 0 5px 14px rgba(0, 12, 30, .22);
+  transition:
+    background .25s ease,
+    color .25s ease,
+    transform .25s ease,
+    box-shadow .25s ease;
+}
+
+.btn-primary {
+  color: #023249;
+  background: linear-gradient(135deg, #83fff0, #37dce9 55%, #29b8e2);
+  border: 1px solid #a5fff6;
+}
+
+.btn-secondary {
+  color: #f2fdff;
+  background: linear-gradient(135deg, #087fa5, #075578);
+  border: 1px solid #61dff3;
+}
+
+.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 9px 22px rgba(0, 204, 230, .23);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #c0fff6, #68f3ec);
+}
+
+.btn-secondary:hover {
+  background: linear-gradient(135deg, #0ba4c5, #08779d);
+}
+
+.btn:active {
+  transform: scale(.97);
+}
+
+/* Semua tombol navigasi */
+.nav-link {
+  color: #dff8ff;
+  background: rgba(5, 70, 99, .7);
+  border: 1px solid rgba(97, 223, 243, .18);
+  border-radius: 12px;
+}
+
+.nav-link.active {
+  color: #03344a;
+  background: linear-gradient(135deg, #7ffff0, #42dce9);
+  border-color: #b3fff8;
+  box-shadow: 0 0 16px rgba(57, 225, 240, .22);
+}
+
+.nav-link:hover {
+  color: white;
+  background: linear-gradient(135deg, #087fa5, #0aa6bd);
+  border-color: #7ffff0;
+}
+
+/* Tombol pilihan hari */
+.day-tabs {
+  gap: 10px;
+  margin: 24px 0;
+}
+
+.day-tab {
+  position: relative;
+  color: #e8fbff;
+  background: linear-gradient(145deg, #075779, #063c5c);
+  border: 1px solid #258ba9;
+  border-radius: 13px;
+  padding: 11px 18px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, .15);
+  transition: .22s ease;
+}
+
+.day-tab:hover {
+  color: #fff;
+  background: linear-gradient(135deg, #087f9e, #08a4b9);
+  border-color: #75f5f2;
+  transform: translateY(-2px);
+}
+
+.day-tab.active {
+  color: #033249;
+  background: linear-gradient(135deg, #8cfff0, #43dbe8);
+  border-color: #c1fff9;
+  box-shadow: 0 0 17px rgba(70, 234, 239, .28);
+}
+
+/* Kartu menu beranda */
+.feature-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #76e5f3;
+  border-radius: 20px;
+  background: linear-gradient(145deg, #e9fbff, #bdebf6);
+  box-shadow: 0 7px 17px rgba(0, 16, 32, .16);
+  transition: .25s ease;
+}
+
+.feature-card:nth-child(odd) {
+  background: linear-gradient(145deg, #f4fdff, #d5f5fc);
+}
+
+.feature-card:hover {
+  border-color: #8bfff3;
+  box-shadow: 0 12px 25px rgba(0, 201, 225, .19);
+}
+
+.feature-card h3 {
+  color: #064361;
+}
+
+.feature-card p {
+  color: #315f73;
+}
+
+.card-link {
+  color: #007f9f;
+}
+
+/* Header halaman piket */
+#page-piket .page-heading {
+  position: relative;
+  padding: 30px 18px;
+  overflow: hidden;
+  border: 1px solid rgba(93, 230, 245, .3);
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at 15% 90%, rgba(0, 218, 226, .14), transparent 35%),
+    linear-gradient(135deg, rgba(4, 60, 86, .88), rgba(3, 31, 53, .94));
+}
+
+#page-piket .page-heading::before {
+  content: "🐠  🫧  🐟";
+  display: block;
+  margin-bottom: 15px;
+  font-size: 28px;
+  letter-spacing: 8px;
+  animation: ocean-float 3s ease-in-out infinite;
+}
+
+#page-piket .page-heading > span {
+  display: none;
+}
+
+#page-piket .page-heading h1 {
+  color: #8bfff4;
+  text-shadow: 0 0 18px rgba(0, 225, 241, .15);
+}
+
+/* Panel piket */
+#page-piket .glass-panel {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(89, 230, 244, .45);
+  border-radius: 24px;
+  padding: 28px;
+  background:
+    radial-gradient(ellipse at top right, rgba(0, 181, 211, .14), transparent 50%),
+    linear-gradient(145deg, rgba(4, 53, 77, .97), rgba(2, 29, 49, .97));
+  box-shadow: 0 14px 35px rgba(0, 9, 25, .24);
+}
+
+#page-piket .glass-panel h2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #8bfff4;
+  font-size: 23px;
+}
+
+#page-piket .glass-panel h2::before {
+  content: "🫧";
+  font-size: 24px;
+}
+
+/* Daftar nama petugas piket */
+#page-piket .piket-list {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin: 22px 0 0;
+}
+
+#page-piket .piket-list li {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 67px;
+  padding: 17px;
+  overflow-wrap: anywhere;
+  color: #eafcff;
+  font-weight: 700;
+  border: 1px solid rgba(94, 225, 244, .35);
+  border-radius: 15px;
+  background: linear-gradient(135deg, rgba(9, 111, 143, .62), rgba(5, 62, 91, .82));
+  box-shadow: inset 0 1px rgba(255, 255, 255, .06);
+  transition: transform .2s ease, border-color .2s ease;
+}
+
+#page-piket .piket-list li::before {
+  content: "🐠";
+  flex-shrink: 0;
+  font-size: 22px;
+}
+
+#page-piket .piket-list li:hover {
+  transform: translateY(-3px);
+  border-color: #83fff1;
+  background: linear-gradient(135deg, rgba(8, 143, 168, .8), rgba(5, 78, 111, .9));
+}
+
+/* Tombol kembali ke atas */
+.back-to-top {
+  border: 1px solid #b6fff7;
+  background: linear-gradient(135deg, #8bfff0, #31cfe6);
+  color: #033249;
+  box-shadow: 0 5px 18px rgba(0, 211, 231, .25);
+}
+
+.back-to-top:hover {
+  background: linear-gradient(135deg, #fff, #7cfff2);
+  transform: translateY(-4px);
+}
+
+@keyframes ocean-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+/* Tampilan HP */
+@media (max-width: 700px) {
+  #page-piket .piket-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  #page-piket .glass-panel {
+    padding: 18px;
+  }
+
+  .day-tabs {
+    gap: 8px;
+  }
+
+  .day-tab {
+    padding: 10px 13px;
+  }
+}
+
+@media (max-width: 380px) {
+  #page-piket .piket-list {
+    grid-template-columns: 1fr;
+  }
+}
