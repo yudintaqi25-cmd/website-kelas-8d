@@ -253,7 +253,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // =====================================
-  // 4. DAFTAR TUGAS (MENGGUNAKAN FIRESTORE)
+  // 4. DAFTAR TUGAS (FIRESTORE)
   // =====================================
   const taskForm = document.getElementById("task-form");
   const taskName = document.getElementById("task-name");
@@ -265,7 +265,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   let daftarTugas = [];
 
-  // Fungsi untuk mengambil data tugas dari Firestore
   async function muatTugasDariFirebase() {
     try {
       const querySnapshot = await getDocs(collection(db, "tugas"));
@@ -427,11 +426,12 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // =====================================
-  // 6. INISIALISASI
+  // 6. INISIALISASI TAMPILAN AWAL
   // =====================================
+  bukaHalaman("beranda"); // Memastikan halaman aktif pertama kali diset dengan benar
   tampilkanJadwal("Senin");
   tampilkanPiket("Senin");
-  muatTugasDariFirebase(); // Memuat data tugas dari database Cloud Firestore
+  muatTugasDariFirebase();
 
   console.log("KELAS 8D: JavaScript & Firebase Firestore berhasil dijalankan!");
 });
