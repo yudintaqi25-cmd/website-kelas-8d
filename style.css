@@ -1,6 +1,5 @@
-
 /* =========================================
-   KELAS 8D — OCEAN THEME
+   KELAS 8D — OCEAN THEME (FRESH & CLEAN)
 ========================================= */
 
 :root {
@@ -15,7 +14,9 @@
   --border: rgba(91, 231, 255, 0.38);
 }
 
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
@@ -35,7 +36,8 @@ body {
 }
 
 button,
-input {
+input,
+textarea {
   font: inherit;
 }
 
@@ -44,7 +46,8 @@ button {
 }
 
 button:focus-visible,
-input:focus-visible {
+input:focus-visible,
+textarea:focus-visible {
   outline: 3px solid #a5ffff;
   outline-offset: 3px;
 }
@@ -161,7 +164,6 @@ input:focus-visible {
     opacity: 0;
     transform: translateY(8px);
   }
-
   to {
     opacity: 1;
     transform: translateY(0);
@@ -313,32 +315,6 @@ input:focus-visible {
   transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
-.feature-card::before {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  top: -38px;
-  right: -28px;
-  width: 105px;
-  height: 105px;
-  border: 2px solid rgba(157, 250, 255, 0.22);
-  border-radius: 50%;
-  box-shadow:
-    0 0 0 12px rgba(157, 250, 255, 0.05),
-    0 0 0 25px rgba(157, 250, 255, 0.035);
-}
-
-.feature-card::after {
-  content: "🫧";
-  position: absolute;
-  z-index: -1;
-  right: 18px;
-  bottom: 10px;
-  font-size: 38px;
-  opacity: 0.32;
-  transform: rotate(-12deg);
-}
-
 .feature-card:hover {
   transform: translateY(-6px);
   border-color: #9cffff;
@@ -356,7 +332,6 @@ input:focus-visible {
   border-radius: 17px;
   background: linear-gradient(145deg, rgba(119, 242, 255, 0.22), rgba(4, 57, 91, 0.7));
   font-size: 29px;
-  box-shadow: inset 0 1px rgba(255, 255, 255, 0.15);
 }
 
 .feature-card h3 {
@@ -377,31 +352,6 @@ input:focus-visible {
   font-weight: 800;
 }
 
-.card-fish {
-  background: radial-gradient(circle at 100% 0%, #168eae66, transparent 40%),
-              linear-gradient(145deg, #075774, #052b4b);
-}
-
-.card-coral {
-  background: radial-gradient(circle at 100% 0%, #d69cff44, transparent 40%),
-              linear-gradient(145deg, #075b78, #082b50);
-}
-
-.card-crab {
-  background: radial-gradient(circle at 100% 0%, #ffb66b44, transparent 40%),
-              linear-gradient(145deg, #096078, #052b4a);
-}
-
-.card-octopus {
-  background: radial-gradient(circle at 100% 0%, #e78cff44, transparent 40%),
-              linear-gradient(145deg, #075477, #07294c);
-}
-
-.card-dolphin {
-  background: radial-gradient(circle at 100% 0%, #9deeff44, transparent 40%),
-              linear-gradient(145deg, #075e7c, #052d4d);
-}
-
 .ocean-motto {
   padding: 35px 10px 5px;
   text-align: center;
@@ -418,16 +368,7 @@ input:focus-visible {
   margin-top: 12px;
 }
 
-/* Judul halaman dan panel */
-.page-heading {
-  margin-top: 15px;
-  margin-bottom: 30px;
-}
-
-.page-heading h1 {
-  font-size: clamp(27px, 4vw, 38px);
-}
-
+/* Panel dan Tab */
 .day-tabs {
   display: flex;
   justify-content: center;
@@ -470,10 +411,25 @@ input:focus-visible {
   color: var(--mint);
 }
 
-/* Jadwal pelajaran */
-.schedule-list {
+/* Jadwal pelajaran & Seragam & Piket */
+.schedule-list,
+.piket-list,
+.uniform-grid {
   display: grid;
-  gap: 10px;
+  gap: 12px;
+}
+
+.uniform-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.schedule-item,
+.piket-item,
+.uniform-card {
+  padding: 15px;
+  border: 1px solid rgba(110, 222, 255, 0.25);
+  border-radius: 14px;
+  background: linear-gradient(100deg, rgba(10, 105, 137, 0.43), rgba(5, 49, 76, 0.62));
 }
 
 .schedule-item {
@@ -481,10 +437,6 @@ input:focus-visible {
   grid-template-columns: minmax(100px, 150px) 1fr auto;
   align-items: center;
   gap: 14px;
-  padding: 15px;
-  border: 1px solid rgba(110, 222, 255, 0.2);
-  border-radius: 14px;
-  background: linear-gradient(100deg, rgba(10, 105, 137, 0.43), rgba(5, 49, 76, 0.62));
 }
 
 .schedule-time {
@@ -496,126 +448,26 @@ input:focus-visible {
   color: #e6f8ff;
 }
 
-.small-note {
-  margin: 20px 0 0;
-  color: #a9d3e2;
-  font-size: 13px;
-  line-height: 1.7;
-}
-
-/* Seragam */
-.uniform-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 17px;
-}
-
 .uniform-card {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 195px;
-  padding: 22px 15px;
   text-align: center;
-  border: 1px solid rgba(75, 225, 255, 0.4);
-  border-radius: 22px;
-  background:
-    radial-gradient(circle at 90% 5%, rgba(107, 243, 255, 0.15), transparent 36%),
-    linear-gradient(145deg, rgba(8, 76, 101, 0.96), rgba(2, 37, 60, 0.97));
-  box-shadow: 0 10px 24px rgba(0, 10, 30, 0.2);
-  transition: transform 0.25s ease, border-color 0.25s ease;
-}
-
-.uniform-card::after {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  width: 100px;
-  height: 100px;
-  right: -48px;
-  bottom: -55px;
-  border: 1px solid rgba(112, 239, 255, 0.2);
-  border-radius: 50%;
-  box-shadow: 0 0 0 12px rgba(112, 239, 255, 0.04);
-}
-
-.uniform-card:hover {
-  transform: translateY(-5px);
-  border-color: #72f4ff;
-}
-
-.uniform-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 65px;
-  height: 65px;
-  margin-bottom: 8px;
-  border: 1px solid rgba(123, 238, 255, 0.35);
-  border-radius: 20px;
-  background: rgba(75, 213, 240, 0.12);
-  font-size: 37px;
 }
 
 .uniform-card h2 {
-  margin: 0 0 9px;
+  margin: 8px 0;
   color: #83f5e9;
-  font-size: 23px;
-}
-
-.uniform-card p {
-  margin: 0 0 10px;
-  color: #e0f5ff;
-  font-size: 16px;
-}
-
-.uniform-detail {
-  color: #9edbe9;
-  font-size: 12px;
-  line-height: 1.6;
-}
-
-.uniform-monday { border-top: 3px solid #59d8ff; }
-.uniform-tuesday { border-top: 3px solid #dca5ff; }
-.uniform-wednesday { border-top: 3px solid #ffdc72; }
-.uniform-thursday { border-top: 3px solid #70e8ff; }
-.uniform-friday { border-top: 3px solid #86f1b0; }
-.uniform-saturday { border-top: 3px solid #ffb7a0; }
-
-/* Piket */
-.piket-list {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-  padding: 0;
-  margin: 20px 0 0;
-  list-style: none;
+  font-size: 20px;
 }
 
 .piket-item {
   display: flex;
   align-items: center;
   gap: 12px;
-  min-width: 0;
-  padding: 15px;
-  border: 1px solid rgba(104, 227, 255, 0.26);
-  border-radius: 15px;
-  background: linear-gradient(110deg, rgba(8, 102, 132, 0.5), rgba(4, 45, 72, 0.7));
-}
-
-.piket-emoji {
-  font-size: 26px;
 }
 
 .piket-number {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  flex: 0 0 30px;
   width: 30px;
   height: 30px;
   color: #07334a;
@@ -624,19 +476,7 @@ input:focus-visible {
   font-weight: 800;
 }
 
-.piket-name {
-  overflow-wrap: anywhere;
-  color: #effcff;
-  font-weight: 700;
-}
-
-.ocean-tip {
-  margin-top: 20px;
-  color: var(--muted);
-  text-align: center;
-}
-
-/* Form tugas */
+/* Form & Tugas */
 .task-form {
   display: grid;
   gap: 10px;
@@ -648,7 +488,8 @@ input:focus-visible {
   font-weight: 700;
 }
 
-.task-form input {
+.task-form input,
+.task-form textarea {
   width: 100%;
   min-height: 45px;
   padding: 12px 14px;
@@ -656,27 +497,6 @@ input:focus-visible {
   border: 1px solid rgba(105, 222, 255, 0.38);
   border-radius: 12px;
   background: rgba(2, 26, 45, 0.8);
-}
-
-.task-form input::placeholder {
-  color: #9bbdce;
-}
-
-.task-form input[type="date"] {
-  color-scheme: dark;
-}
-
-.task-form .btn {
-  justify-self: start;
-  margin-top: 10px;
-}
-
-.task-panel {
-  margin-top: 22px;
-}
-
-#task-summary {
-  color: #bde8f7;
 }
 
 .task-list {
@@ -696,29 +516,7 @@ input:focus-visible {
   background: rgba(4, 50, 77, 0.7);
 }
 
-.task-info {
-  min-width: 0;
-}
-
-.task-info strong {
-  overflow-wrap: anywhere;
-}
-
-.task-info p {
-  margin: 6px 0 0;
-  color: #b7d9e8;
-  font-size: 13px;
-  overflow-wrap: anywhere;
-}
-
-.task-item input[type="checkbox"] {
-  width: 19px;
-  height: 19px;
-  accent-color: #5fe7dc;
-  cursor: pointer;
-}
-
-.task-item.completed .task-info strong {
+.task-item.completed strong {
   color: #a3c3ce;
   text-decoration: line-through;
 }
@@ -741,11 +539,6 @@ input:focus-visible {
   border: 1px solid var(--border);
   border-radius: 20px;
   background: linear-gradient(120deg, rgba(7, 91, 119, 0.87), rgba(3, 38, 64, 0.92));
-  box-shadow: 0 10px 26px rgba(0, 10, 30, 0.16);
-}
-
-.announcement-icon {
-  font-size: 34px;
 }
 
 .announcement-card h2 {
@@ -809,29 +602,18 @@ input:focus-visible {
   .navbar {
     flex-wrap: wrap;
   }
-
   .menu-toggle {
     display: inline-flex;
-    align-items: center;
-    justify-content: center;
   }
-
   .nav-menu {
     display: none;
     width: 100%;
     flex-direction: column;
-    align-items: stretch;
     padding-top: 8px;
   }
-
   .nav-menu.open {
     display: flex;
   }
-
-  .nav-link {
-    text-align: left;
-  }
-
   .feature-grid,
   .uniform-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -839,73 +621,9 @@ input:focus-visible {
 }
 
 @media (max-width: 580px) {
-  .container {
-    width: 92%;
-    padding-top: 22px;
-  }
-
-  .hero {
-    padding: 32px 17px;
-  }
-
   .feature-grid,
   .uniform-grid,
   .piket-list {
     grid-template-columns: 1fr;
-  }
-
-  .feature-card {
-    min-height: 190px;
-    padding: 20px;
-  }
-
-  .uniform-card {
-    min-height: 175px;
-  }
-
-  .glass-panel {
-    padding: 17px;
-  }
-
-  .day-tabs {
-    gap: 7px;
-  }
-
-  .day-tab {
-    flex: 1 1 26%;
-    min-width: 0;
-    padding: 10px 7px;
-  }
-
-  .schedule-item {
-    grid-template-columns: 1fr auto;
-    gap: 8px;
-  }
-
-  .schedule-time {
-    grid-column: 1 / -1;
-  }
-
-  .schedule-subject {
-    overflow-wrap: anywhere;
-  }
-
-  .task-item {
-    gap: 8px;
-    padding: 11px;
-  }
-
-  .announcement-card {
-    padding: 17px;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    scroll-behavior: auto !important;
-    animation: none !important;
-    transition: none !important;
   }
 }
