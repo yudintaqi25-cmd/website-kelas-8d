@@ -1613,3 +1613,278 @@ td {
     margin-left: auto;
   }
 }
+
+/* ==========================================
+   PERBAIKAN TOMBOL WEBSITE KELAS 8D
+   Warna, ukuran, jarak, dan tampilan PC/HP
+   ========================================== */
+
+button {
+  box-sizing: border-box;
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.4;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Tombol utama: biru laut */
+.primary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 12px 22px;
+  border: 1px solid #168bd2;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #16a8e0, #0875c9);
+  color: #ffffff;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+  box-shadow: 0 5px 14px rgba(0, 93, 160, 0.22);
+  transition: background 0.2s ease, transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.primary-button:hover {
+  background: linear-gradient(135deg, #087fc0, #075ca8);
+  box-shadow: 0 7px 18px rgba(0, 93, 160, 0.3);
+  transform: translateY(-2px);
+}
+
+.primary-button:active {
+  transform: translateY(0);
+}
+
+/* Tombol sekunder: putih kebiruan */
+.secondary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 11px 20px;
+  border: 1px solid #a9dff5;
+  border-radius: 14px;
+  background: #eaf8ff;
+  color: #075985;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.secondary-button:hover {
+  background: #d2f0ff;
+  transform: translateY(-2px);
+}
+
+/* Menu navigasi */
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 40px;
+  padding: 10px 14px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  background: transparent;
+  color: #e8f7ff;
+  font-weight: 600;
+  text-align: center;
+  white-space: nowrap;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.nav-link:hover {
+  background: rgba(95, 204, 255, 0.18);
+  color: #ffffff;
+}
+
+.nav-link.active {
+  border-color: rgba(125, 218, 255, 0.4);
+  background: #e4f7ff;
+  color: #075985;
+}
+
+/* Tombol menu HP */
+.menu-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid rgba(147, 220, 255, 0.5);
+  border-radius: 12px;
+  background: #087bb9;
+  color: #ffffff;
+  font-size: 23px;
+  font-weight: 700;
+}
+
+/* Pilihan hari */
+.day-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.day-tab {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 9px 16px;
+  border: 1px solid #b7dff0;
+  border-radius: 12px;
+  background: #f0f9ff;
+  color: #075985;
+  font-weight: 700;
+  text-align: center;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.day-tab:hover {
+  background: #d8f1ff;
+}
+
+.day-tab.active {
+  border-color: #087fc0;
+  background: #087fc0;
+  color: #ffffff;
+}
+
+/* Kartu beranda yang bisa diklik */
+.info-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 22px;
+  border: 1px solid rgba(135, 210, 245, 0.65);
+  border-radius: 20px;
+  background: rgba(239, 250, 255, 0.96);
+  color: #164765;
+  text-align: left;
+  box-shadow: 0 8px 24px rgba(0, 54, 93, 0.09);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.info-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(0, 54, 93, 0.16);
+}
+
+.info-card h3 {
+  margin: 4px 0;
+  color: #075985;
+}
+
+.info-card p {
+  margin: 0;
+  line-height: 1.6;
+}
+
+.card-arrow {
+  margin-top: 8px;
+  color: #087fc0;
+  font-weight: 700;
+}
+
+/* Tombol hapus tugas */
+.delete-task {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  padding: 8px 13px;
+  border: 1px solid #fecaca;
+  border-radius: 10px;
+  background: #fff1f2;
+  color: #be123c;
+  font-weight: 700;
+}
+
+.delete-task:hover {
+  background: #ffe0e5;
+}
+
+/* Tombol kembali */
+.back-button {
+  margin-top: 24px;
+}
+
+/* Kerapian tombol di laptop dan PC */
+.hero-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.hero-buttons button {
+  max-width: 100%;
+}
+
+/* Ukuran layar tablet dan HP */
+@media (max-width: 1000px) {
+  .nav-link {
+    padding: 9px 11px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 650px) {
+  .menu-toggle {
+    display: inline-flex;
+    flex-shrink: 0;
+  }
+
+  .nav {
+    align-items: stretch;
+    gap: 6px;
+  }
+
+  .nav-link {
+    width: 100%;
+    justify-content: flex-start;
+    white-space: normal;
+    font-size: 14px;
+  }
+
+  .hero-buttons {
+    justify-content: center;
+  }
+
+  .hero-buttons button,
+  .back-button {
+    max-width: 100%;
+  }
+
+  .day-tabs {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 7px;
+  }
+
+  .day-tab {
+    min-width: 0;
+    padding: 9px 5px;
+    white-space: normal;
+  }
+
+  .info-card {
+    width: 100%;
+  }
+}
+
+/* Fokus keyboard agar mudah digunakan */
+button:focus-visible {
+  outline: 3px solid #facc15;
+  outline-offset: 3px;
+}
