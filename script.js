@@ -1,35 +1,25 @@
-// =====================================
-// 0. INISIALISASI FIREBASE & FIRESTORE
-// =====================================
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-import { 
-  getFirestore, 
-  collection, 
-  getDocs, 
-  addDoc, 
-  updateDoc, 
-  deleteDoc, 
-  doc 
-} from "firebase/firestore";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyBLMQVwyHZKCbZ99We9KWu9CQXq2NKD0zs",
-  authDomain: "kelas-8d.firebaseapp.com",
-  databaseURL: "https://kelas-8d-default-rtdb.firebaseio.com",
-  projectId: "kelas-8d",
-  storageBucket: "kelas-8d.firebasestorage.app",
-  messagingSenderId: "943935144208",
-  appId: "1:943935144208:web:237df529c9aecb3624a595",
-  measurementId: "G-NQ5H57RTH7"
-};
-
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-const db = getFirestore(app);
-
 document.addEventListener("DOMContentLoaded", function () {
   "use strict";
+
+  // =====================================
+  // 0. INISIALISASI FIREBASE FIRESTORE (CDN)
+  // =====================================
+  const firebaseConfig = {
+    apiKey: "AIzaSyBLMQVwyHZKCbZ99We9KWu9CQXq2NKD0zs",
+    authDomain: "kelas-8d.firebaseapp.com",
+    databaseURL: "https://kelas-8d-default-rtdb.firebaseio.com",
+    projectId: "kelas-8d",
+    storageBucket: "kelas-8d.firebasestorage.app",
+    messagingSenderId: "943935144208",
+    appId: "1:943935144208:web:237df529c9aecb3624a595",
+    measurementId: "G-NQ5H57RTH7"
+  };
+
+  // Inisialisasi Firebase
+  if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+  }
+  const db = firebase.firestore();
 
   // =====================================
   // 1. NAVIGASI HALAMAN
@@ -267,7 +257,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   async function muatTugasDariFirebase() {
     try {
-      const querySnapshot = await getDocs(collection(db, "tugas"));
+      const querySnapshot = await db.collection("tugas").get();
       daftarTugas = [];
       querySnapshot.forEach((docSnap) => {
         daftarTugas.push({
@@ -327,8 +317,7 @@ document.addEventListener("DOMContentLoaded", function () {
       selesai.addEventListener("change", async function () {
         tugas.selesai = selesai.checked;
         try {
-          const taskRef = doc(db, "tugas", tugas.id);
-          await updateDoc(taskRef, { selesai: tugas.selesai });
+          await db.collection("tugas").doc(tugas.id).update({ selesai: tugas.selesai });
           renderTugas();
         } catch (error) {
           console.warn("Gagal memperbarui status tugas:", error);
@@ -343,7 +332,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       hapus.addEventListener("click", async function () {
         try {
-          await deleteDoc(doc(db, "tugas", tugas.id));
+          await db.collection("tugas").doc(tugas.id).delete();
           daftarTugas = daftarTugas.filter(function (t) {
             return t.id !== tugas.id;
           });
@@ -378,7 +367,7 @@ document.addEventListener("DOMContentLoaded", function () {
       };
 
       try {
-        const docRef = await addDoc(collection(db, "tugas"), tugasBaru);
+        const docRef = await db.collection("tugas").add(tugasBaru);
         daftarTugas.push({
           id: docRef.id,
           ...tugasBaru
@@ -399,7 +388,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
         for (const tugas of tugasSelesai) {
-          await deleteDoc(doc(db, "tugas", tugas.id));
+          await db.collection("tugas").doc(tugas.id).delete();
         }
 
         daftarTugas = daftarTugas.filter(function (tugas) {
@@ -428,10 +417,10 @@ document.addEventListener("DOMContentLoaded", function () {
   // =====================================
   // 6. INISIALISASI TAMPILAN AWAL
   // =====================================
-  bukaHalaman("beranda"); // Memastikan halaman aktif pertama kali diset dengan benar
+  bukaHalaman("beranda");
   tampilkanJadwal("Senin");
   tampilkanPiket("Senin");
   muatTugasDariFirebase();
 
-  console.log("KELAS 8D: JavaScript & Firebase Firestore berhasil dijalankan!");
+  console.log("KELAS 8D: Website dan Firebase Firestore siap digunakan!");
 });
