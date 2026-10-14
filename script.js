@@ -437,14 +437,12 @@ document.addEventListener("DOMContentLoaded", function () {
     daftarPengumuman.forEach(function (p) {
       const article = document.createElement("article");
       article.className = "announcement-card";
-      article.style.display = "flex";
-      article.style.justifyContent = "space-between";
-      article.style.alignItems = "center";
 
       const leftWrapper = document.createElement("div");
       leftWrapper.style.display = "flex";
       leftWrapper.style.alignItems = "flex-start";
-      leftWrapper.style.gap = "15px";
+      leftWrapper.style.gap = "17px";
+      leftWrapper.style.flex = "1";
 
       const iconSpan = document.createElement("span");
       iconSpan.className = "announcement-icon";
@@ -465,9 +463,6 @@ document.addEventListener("DOMContentLoaded", function () {
       hapusBtn.type = "button";
       hapusBtn.textContent = "🗑️ Hapus";
       hapusBtn.className = "btn btn-secondary";
-      hapusBtn.style.padding = "6px 12px";
-      hapusBtn.style.fontSize = "0.9rem";
-      hapusBtn.style.whiteSpace = "nowrap";
 
       hapusBtn.addEventListener("click", async function () {
         if (confirm("Yakin ingin menghapus pengumuman ini?")) {
