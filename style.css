@@ -1517,3 +1517,70 @@ select:focus-visible {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ===== FIX KONTRAS KARTU BERANDA ===== */
+
+.info-card {
+  background: #f0f9ff !important;
+  color: #164765 !important;
+}
+
+.info-card .card-title,
+.info-card h3 {
+  color: #075985 !important;
+}
+
+.info-card .card-description,
+.info-card p {
+  color: #41677d !important;
+}
+
+.info-card .card-arrow {
+  color: #087fc0 !important;
+}
+
+/* Pastikan ikon dan teks kartu tersusun rapi */
+.info-card {
+  align-items: flex-start;
+  gap: 8px;
+  text-align: left;
+}
+
+.info-card .card-icon {
+  flex-shrink: 0;
+  margin-bottom: 10px;
+}
+
+/* Perbaiki posisi konten utama */
+.hero {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-content {
+  min-width: 0;
+}
+
+.hero-art {
+  min-width: 0;
+}
+
+/* Latar belakang tidak menghalangi interaksi */
+.video-background,
+#background-video,
+.background-overlay,
+.ocean-bg {
+  pointer-events: none;
+}
+
+/* Pastikan teks kartu tetap terbaca di layar kecil */
+@media (max-width: 650px) {
+  .info-card .card-title {
+    font-size: 14px;
+  }
+
+  .info-card .card-description {
+    min-height: 0;
+    line-height: 1.6;
+  }
+}
