@@ -266,12 +266,36 @@
     </section>
 
     <!-- PENGUMUMAN -->
+   <!-- PENGUMUMAN -->
     <section id="page-pengumuman" class="page">
       <div class="page-heading">
         <span class="big-icon">🐬</span>
         <h1>Pengumuman Kelas</h1>
         <p>Informasi penting untuk keluarga besar kelas 8D.</p>
       </div>
+
+      <!-- Form Buat Pengumuman Baru -->
+      <div class="glass-panel" style="margin-bottom: 25px;">
+        <h2>📢 Buat Pengumuman Baru</h2>
+        <form id="announcement-form" class="task-form">
+          <label for="announcement-title">Judul Pengumuman</label>
+          <input id="announcement-title" name="announcement-title" type="text"
+                 placeholder="Contoh: Jadwal Ujian Susulan" required>
+
+          <label for="announcement-content">Isi Pengumuman</label>
+          <textarea id="announcement-content" name="announcement-content" 
+                    placeholder="Tulis detail informasi di sini..." rows="3" 
+                    style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.2); color: white; margin-bottom: 15px;" required></textarea>
+
+          <button class="btn btn-primary" type="submit">➕ Terbitkan Pengumuman</button>
+        </form>
+      </div>
+
+      <!-- Daftar Pengumuman (Tampil Otomatis dari Database) -->
+      <div id="announcement-list">
+        <!-- Pengumuman akan dimuat otomatis di sini -->
+      </div>
+    </section>
 
       <article class="announcement-card">
         <span class="announcement-icon">📢</span>
